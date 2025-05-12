@@ -68,4 +68,7 @@ export const media = pgTable("media", {
   title: text("title").notNull(),
   videoUrl: text("video_url").notNull(),
   uploadedAt: timestamp("uploaded_at").notNull(),
+  disciplineId: integer("discipline_id").references(() => disciplines.id, {
+    onDelete: "set null",
+  }),
 });
