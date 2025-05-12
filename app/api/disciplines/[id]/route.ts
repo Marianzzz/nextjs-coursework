@@ -5,11 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(context.params.id);
+  const { id } = await context.params;
+
   const discipline = await db.query.disciplines.findFirst({
-    where: (d, { eq }) => eq(d.id, id),
+    where: (d, { eq }) => eq(d.id, Number(id)),
   });
 
   if (!discipline) {
@@ -21,19 +22,21 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(context.params.id);
+    const { id } = await context.params;
     const { name, imageUrl } = await req.json();
 
     const updated = await db
       .update(disciplines)
       .set({ name, imageUrl })
-      .where(eq(disciplines.id, id))
+      .where(eq(disciplines.id, Number(id)))
       .returning();
 
-    return NextResponse.json(updated[0]);
+    return updated[0]
+      ? NextResponse.json(updated[0])
+      : NextResponse.json({ error: "Update failed" }, { status: 500 });
   } catch {
     return NextResponse.json(
       { error: "Failed to update discipline" },
@@ -44,11 +47,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(context.params.id);
-    await db.delete(disciplines).where(eq(disciplines.id, id));
+    const { id } = await context.params;
+    await db.delete(disciplines).where(eq(disciplines.id, Number(id)));
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(

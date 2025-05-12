@@ -5,11 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(context.params.id);
+  const { id } = await context.params;
+
   const item = await db.query.news.findFirst({
-    where: (n, { eq }) => eq(n.id, id),
+    where: (n, { eq }) => eq(n.id, Number(id)),
   });
 
   if (!item) {
@@ -21,10 +22,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(context.params.id);
+    const { id } = await context.params;
     const { title, content, publishedAt, imageUrl, disciplineId } =
       await req.json();
 
@@ -37,7 +38,7 @@ export async function PUT(
         imageUrl,
         disciplineId,
       })
-      .where(eq(news.id, id))
+      .where(eq(news.id, Number(id)))
       .returning();
 
     return updated[0]
@@ -50,11 +51,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = Number(context.params.id);
-    await db.delete(news).where(eq(news.id, id));
+    const { id } = await context.params;
+    await db.delete(news).where(eq(news.id, Number(id)));
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to delete news" }, { status: 500 });
