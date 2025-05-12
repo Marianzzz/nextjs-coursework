@@ -1,0 +1,68 @@
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  date,
+  integer,
+  varchar,
+  pgEnum,
+} from "drizzle-orm/pg-core";
+
+export const matchStatusEnum = pgEnum("match_status", ["live", "finished", "upcoming"]);
+
+
+export const disciplines = pgTable("disciplines", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  imageUrl: text("image_url"), 
+});
+
+export const news = pgTable("news", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  publishedAt: timestamp("published_at").notNull(),
+  imageUrl: text("image_url"),
+  disciplineId: integer("discipline_id").references(() => disciplines.id, {
+    onDelete: "set null",
+  }),
+});
+
+export const tournaments = pgTable("tournaments", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  startDate: date("start_date").notNull(),
+  endDate: date("end_date").notNull(),
+  prizePool: text("prize_pool"),
+});
+
+export const matches = pgTable("matches", {
+  id: serial("id").primaryKey(),
+  opponent: text("opponent").notNull(),
+  date: timestamp("date").notNull(),
+  result: matchStatusEnum("result").notNull(), 
+  tournamentId: integer("tournament_id").references(() => tournaments.id, {
+    onDelete: "set null",
+  }),
+  disciplineId: integer("discipline_id").references(() => disciplines.id, {
+    onDelete: "set null",
+  })
+});
+
+export const teams = pgTable("teams", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  tag: text("tag").notNull(),
+  players: text("players").array(),
+  disciplineId: integer("discipline_id").references(() => disciplines.id, {
+    onDelete: "set null",
+  }),
+});
+
+export const media = pgTable("media", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  videoUrl: text("video_url").notNull(),
+  uploadedAt: timestamp("uploaded_at").notNull(),
+});
