@@ -9,7 +9,7 @@ export async function GET() {
       .from(disciplines)
       .orderBy(disciplines.id);
     return NextResponse.json(allDisciplines);
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch disciplines." },
       { status: 500 },
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       .returning();
 
     return NextResponse.json(created[0], { status: 201 });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to create discipline." },
       { status: 500 },
