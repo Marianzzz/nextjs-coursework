@@ -1,23 +1,32 @@
 import { db } from "@/db/db";
 import { news } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
-  const { id } = await params; 
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
+  const id = Number(context.params.id);
   const item = await db.query.news.findFirst({
-    where: (n, { eq }) => eq(n.id, Number(id)),
+    where: (n, { eq }) => eq(n.id, id),
   });
+
   if (!item) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+
   return NextResponse.json(item);
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
-    const { id } = await params; 
-    const { title, content, publishedAt, imageUrl, disciplineId } = await req.json();
+    const id = Number(context.params.id);
+    const { title, content, publishedAt, imageUrl, disciplineId } =
+      await req.json();
 
     const updated = await db
       .update(news)
@@ -28,7 +37,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         imageUrl,
         disciplineId,
       })
-      .where(eq(news.id, Number(id)))
+      .where(eq(news.id, id))
       .returning();
 
     return updated[0]
@@ -39,10 +48,13 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
-    const { id } = await params; 
-    await db.delete(news).where(eq(news.id, Number(id)));
+    const id = Number(context.params.id);
+    await db.delete(news).where(eq(news.id, id));
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to delete news" }, { status: 500 });
