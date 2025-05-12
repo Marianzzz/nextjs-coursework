@@ -15,6 +15,13 @@
       "when": 1747073889571,
       "tag": "0001_abnormal_captain_universe",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747075281746,
+      "tag": "0002_complete_iron_lad",
+      "breakpoints": true
     }
   ]
 }

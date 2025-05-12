@@ -57,7 +57,16 @@ export const teams = pgTable("teams", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   tag: text("tag").notNull(),
-  players: text("players").array(),
+  disciplineId: integer("discipline_id").references(() => disciplines.id, {
+    onDelete: "set null",
+  }),
+});
+
+export const players = pgTable("players", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  tag: text("tag").notNull(),
+  teamId: integer("team_id").references(() => teams.id, { onDelete: "cascade"}),
   disciplineId: integer("discipline_id").references(() => disciplines.id, {
     onDelete: "set null",
   }),
