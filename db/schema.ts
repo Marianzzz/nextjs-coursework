@@ -41,7 +41,10 @@ export const matches = pgTable("matches", {
   id: serial("id").primaryKey(),
   opponent: text("opponent").notNull(),
   date: timestamp("date").notNull(),
-  result: matchStatusEnum("result").notNull(), 
+
+  status: matchStatusEnum("status").notNull(), 
+  result: text("result"), 
+
   tournamentId: integer("tournament_id").references(() => tournaments.id, {
     onDelete: "set null",
   }),
