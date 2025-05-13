@@ -5,6 +5,13 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui/alert"
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Сторінку не знайдено',
+  description: 'Сторінка, яку не знайдено',
+}
+
 
 export default function NotFound() {
   return (
