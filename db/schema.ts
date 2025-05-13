@@ -9,6 +9,7 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
+
 export const matchStatusEnum = pgEnum("match_status", ["live", "finished", "upcoming"]);
 
 
@@ -80,4 +81,16 @@ export const media = pgTable("media", {
   disciplineId: integer("discipline_id").references(() => disciplines.id, {
     onDelete: "set null",
   }),
+});
+
+
+export const users = pgTable("user", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()), 
+  name: text("name"),
+  email: text("email").unique().notNull(),
+  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  image: text("image"),
+  passwordHash: text("passwordHash").notNull(),
 });

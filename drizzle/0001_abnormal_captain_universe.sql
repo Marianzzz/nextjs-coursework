@@ -1,2 +1,0 @@
-ALTER TABLE "media" ADD COLUMN "discipline_id" integer;--> statement-breakpoint
-ALTER TABLE "media" ADD CONSTRAINT "media_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;
