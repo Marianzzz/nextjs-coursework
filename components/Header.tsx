@@ -4,8 +4,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/session";
 import { logout } from '@/app/actions/auth';
-import logoImg from '@/public/mugetsu-white.png';
-import logoHoverImg from '@/public/mugetsu-hover.png';
 
 export default async function Header() {
     const session = await getSession();
@@ -14,13 +12,13 @@ export default async function Header() {
             <nav className="flex justify-between items-center">
                 <Link href="/" className="relative w-40 h-15 group">
                     <Image
-                        src={logoImg}
+                        src='/mugetsu-white.png'
                         alt="Логотип"
                         fill
                         className="object-contain transition-opacity duration-300 opacity-100 group-hover:opacity-0"
                     />
                     <Image
-                        src={logoHoverImg}
+                        src='/mugetsu-hover.png'
                         alt="Логотип при наведенні"
                         fill
                         className="object-contain transition-opacity duration-300 opacity-0 group-hover:opacity-100"
