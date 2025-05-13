@@ -17,7 +17,7 @@ export default function SignupForm() {
   );
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-muted px-4">
+    <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] px-4 mt-16">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Реєстрація</CardTitle>

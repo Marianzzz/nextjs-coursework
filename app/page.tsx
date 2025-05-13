@@ -1,6 +1,5 @@
-import AuthForm from "@/components/signup-form";
 export default function Home() {
   return (
-    <AuthForm />
+   <h1>Головна сторінка</h1>
   );
 }
