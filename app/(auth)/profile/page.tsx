@@ -1,7 +1,12 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import { db } from "@/db/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import type { Metadata } from 'next'
- 
+import Profile from "@/components/profile";
+
+
 export const metadata: Metadata = {
   title: 'Профіль',
   description: 'Профіль користувача',
@@ -10,12 +15,13 @@ export const metadata: Metadata = {
 export default async function ProfilePage() {
   const session = await getSession();
   if (!session) redirect("/");
-
-  const { userId } = session as { userId: string };
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, session.userId))
+    .then((res) => res[0]);
 
   return (
-    <div>
-      <h1>Вітаю, користувач #{userId}</h1>
-    </div>
-  );
+    <Profile userEmail={user?.email ?? ""} />
+  )
 }
