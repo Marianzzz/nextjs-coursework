@@ -1,3 +1,5 @@
+'use client';
+
 type Video = {
   id: number;
   title: string;
