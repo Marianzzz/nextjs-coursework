@@ -16,7 +16,7 @@ export default function NavLink({ href, children }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className={`transition-colors hover:text-white hover:underline hover:underline-offset-4 ${isActive ? 'text-white font-semibold underline underline-offset-4' : 'text-slate-400"'
+      className={`transition-colors hover:text-black hover:underline hover:underline-offset-4 ${isActive ? 'text-black font-semibold underline underline-offset-4' : 'text-black"'
         }`}
     >
       {children}
