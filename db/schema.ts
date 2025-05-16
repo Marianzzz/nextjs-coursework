@@ -11,6 +11,8 @@ import {
 
 
 export const matchStatusEnum = pgEnum("match_status", ["live", "finished", "upcoming"]);
+export const userRoleEnum = pgEnum("role", ["user", "admin"]);
+
 
 
 export const disciplines = pgTable("disciplines", {
@@ -85,12 +87,11 @@ export const media = pgTable("media", {
 
 
 export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()), 
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()), 
   name: text("name"),
   email: text("email").unique().notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   passwordHash: text("passwordHash").notNull(),
+  role: userRoleEnum("role").default("user").notNull(), 
 });

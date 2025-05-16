@@ -22,6 +22,6 @@ export default async function ProfilePage() {
     .then((res) => res[0]);
 
   return (
-    <Profile userEmail={user?.email ?? ""} />
+    <Profile userEmail={user?.email ?? ""} userRole={user?.role ?? 'user'} />
   )
 }

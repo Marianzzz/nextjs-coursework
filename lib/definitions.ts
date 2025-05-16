@@ -1,6 +1,8 @@
 import { z } from "zod";
+
 export type SessionPayload = {
   userId: string;
+  role: "user" | "admin";
   expiresAt: Date;
 };
 export interface FormErrors {

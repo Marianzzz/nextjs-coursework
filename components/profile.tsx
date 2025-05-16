@@ -22,7 +22,7 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs";
 
-export default function Profile({ userEmail }: { userEmail: string }) {
+export default function Profile({ userEmail, userRole }: { userEmail: string, userRole: string }) {
     const emailHandler = async (_prevState: AccountState, formData: FormData) => {
         return await changeEmail(formData);
     };
@@ -59,6 +59,9 @@ export default function Profile({ userEmail }: { userEmail: string }) {
                             <CardContent className="space-y-2 mb-4">
                                 <div className="space-y-1">
                                     <Label htmlFor="email">Пошта</Label>
+                                    <span className="text-sm text-muted-foreground">
+                                        ({userRole === "admin" ? "Адміністратор" : "Користувач"})
+                                    </span>
                                     <Input id="email" name="email" type="email" defaultValue={userEmail} />
                                     {emailState?.errors?.email && (
                                         <p className="text-sm text-red-500">{emailState.errors.email[0]}</p>
@@ -87,7 +90,7 @@ export default function Profile({ userEmail }: { userEmail: string }) {
                             <CardContent className="space-y-2 mb-4">
                                 <div className="space-y-1">
                                     <Label htmlFor="current">Поточний пароль</Label>
-                                    <Input id="current" name="current" type="password"/>
+                                    <Input id="current" name="current" type="password" />
                                     {passwordState?.errors?.current && (
                                         <p className="text-sm text-red-500">{passwordState.errors.current[0]}</p>
                                     )}
