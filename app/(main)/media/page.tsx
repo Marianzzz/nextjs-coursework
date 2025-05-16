@@ -21,7 +21,9 @@ export default async function MediaPage() {
     <>
       <div className="grid gap-6 md:grid-cols-3 p-10">
         {media.map((item) => (
-          <VideoCard key={item.id} video={item} />
+          <VideoCard key={item.id} video={item} discipline={
+            disciplines.find((d) => d.id === item.disciplineId) || null
+          } />
         ))}
       </div>
       {showAdmin && <div className="flex items-center justify-center mb-10">

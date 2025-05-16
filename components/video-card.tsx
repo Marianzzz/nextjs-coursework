@@ -1,16 +1,21 @@
 'use client';
 
-type Video = {
-  id: number;
-  title: string;
-  videoUrl: string;
-  uploadedAt: Date;
-};
+import { Video } from "@/lib/definitions";
 
-export default function VideoCard({ video }: { video: Video }) {
+import { Discipline } from "@/lib/definitions";
+
+
+export default function VideoCard({
+  video,
+  discipline,
+}: {
+  video: Video;
+  discipline: Discipline | null;
+}) {
   return (
     <div className="rounded-xl border bg-white shadow-sm p-3 space-y-2">
       <h3 className="text-base font-semibold">{video.title}</h3>
+      {discipline && <h4 className="text-base font-semibold">{discipline.name}</h4>}
       <iframe
         className="w-full aspect-video rounded-md"
         src={video.videoUrl}

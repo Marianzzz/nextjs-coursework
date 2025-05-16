@@ -65,6 +65,12 @@ export type AccountState = {
   };
   message?: string;
 };
+export type Video = {
+  id: number;
+  title: string;
+  videoUrl: string;
+  uploadedAt: Date;
+};
 
 export const MediaSchema = z.object({
   title: z.string().min(1, "Назва обов'язкова.").trim(),
@@ -85,7 +91,7 @@ export type MediaFormState =
     }
   | undefined;
 
-type Discipline = {
+export type Discipline = {
   id: number;
   name: string;
 };
