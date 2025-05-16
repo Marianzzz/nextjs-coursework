@@ -8,7 +8,8 @@ import type { Metadata } from "next";
 
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const numericId = Number(params.id);
+  const { id } = await params;
+  const numericId = Number(id);
   const media = await getMediaById(numericId);
 
   if (!media) {
