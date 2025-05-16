@@ -67,7 +67,7 @@ export default function LoginForm() {
             </Button>
 
             <p className="text-sm text-center">
-              Немає акаунту?{' '}
+              Немає акаунту?
               <Link href="/signup" className="underline">
                 Зареєструйся
               </Link>

@@ -5,6 +5,7 @@ export type SessionPayload = {
   role: "user" | "admin";
   expiresAt: Date;
 };
+
 export interface FormErrors {
   email?: string[];
   password?: string[];
@@ -25,6 +26,7 @@ export const SignupFormSchema = z.object({
     })
     .trim(),
 });
+
 export const LoginFormSchema = z.object({
   email: z.string().email("Невірний формат email"),
   password: z.string().min(6, "Пароль має бути не менше 6 символів"),
@@ -54,6 +56,7 @@ export const ChangePasswordSchema = z.object({
       message: "Містить принаймні один спеціальний символ.",
     }),
 });
+
 export type AccountState = {
   errors?: {
     email?: string[];
@@ -61,4 +64,32 @@ export type AccountState = {
     new?: string[];
   };
   message?: string;
+};
+
+export const MediaSchema = z.object({
+  title: z.string().min(1, "Назва обов'язкова.").trim(),
+  videoUrl: z.string().url("Введіть дійсний URL відео.").trim(),
+  disciplineId: z
+    .number({ invalid_type_error: "ID дисципліни має бути числом." })
+    .optional(),
+});
+
+export type MediaFormState =
+  | {
+      errors?: {
+        title?: string[];
+        videoUrl?: string[];
+        disciplineId?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+type Discipline = {
+  id: number;
+  name: string;
+};
+
+export type FormMedia = {
+  disciplines: Discipline[];
 };
