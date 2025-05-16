@@ -113,3 +113,11 @@ export interface MediaEditProps {
 export interface PageProps {
   params: Promise<{ id: string }>;
 }
+export interface News {
+  id: number;
+  title: string;
+  content: string;
+  publishedAt: Date;
+  imageUrl?: string | null;
+  disciplineId?: number | null;
+}
