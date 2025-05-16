@@ -14,7 +14,7 @@ import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue
 } from "@/components/ui/select";
-import { MediaEditProps } from "@/lib/definitions";
+import { MediaEditProps, MediaFormState } from "@/lib/definitions";
 import Link from "next/link";
 
 
@@ -27,7 +27,7 @@ export default function MediaEdit({ media, disciplines, onDelete }: MediaEditPro
   );
 
   const actionHandler = async (
-    _prevState: any,
+    _prevState: MediaFormState,
     formData: FormData
   ) => {
     formData.set("id", media.id.toString());
