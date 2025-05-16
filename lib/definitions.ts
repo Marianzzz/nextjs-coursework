@@ -109,3 +109,7 @@ export interface MediaEditProps {
   disciplines: { id: number; name: string }[];
   onDelete: (formData: FormData) => void;
 }
+
+export interface PageProps {
+  params: Promise<{ id: string }>;
+}
