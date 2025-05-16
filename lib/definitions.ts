@@ -113,11 +113,41 @@ export interface MediaEditProps {
 export interface PageProps {
   params: Promise<{ id: string }>;
 }
-export interface News {
+
+export type News = {
   id: number;
   title: string;
   content: string;
   publishedAt: Date;
-  imageUrl?: string | null;
-  disciplineId?: number | null;
-}
+  imageUrl: string | null;
+  disciplineId: number | null;
+};
+
+export const NewsSchema = z.object({
+  title: z.string().min(1, { message: 'Заголовок обов’язковий' }).max(255),
+  content: z.string().min(1, { message: 'Вміст обов’язковий' }),
+  disciplineId: z.number().int().positive().optional(),
+  image: z
+    .instanceof(File)
+    .refine(
+      (file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
+      { message: 'Дозволені лише JPEG, PNG або WebP' }
+    )
+    .refine((file) => file.size <= 4.5 * 1024 * 1024, {
+      message: 'Файл не може бути більшим за 4.5 МБ',
+    })
+    .optional(),
+});
+
+export type NewsFormState = {
+  message?: string;
+  errors?: {
+    title?: string[];
+    content?: string[];
+    disciplineId?: string[];
+    image?: string[];
+  };
+};
+export type FormNews = {
+  disciplines: Discipline[];
+};
