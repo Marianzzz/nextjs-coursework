@@ -1,10 +1,11 @@
 "use server";
 import { db } from "@/db/db";
 import { media } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { MediaSchema } from "@/lib/definitions";
 import { MediaFormState } from "@/lib/definitions";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function getAllMedia() {
   try {
@@ -15,6 +16,19 @@ export async function getAllMedia() {
     return result;
   } catch (error) {
     console.error("Помилка при отриманні медіа:", error);
+    throw new Error("Не вдалося отримати медіа.");
+  }
+}
+export async function getMediaById(id: number) {
+  try {
+    const result = await db
+      .select()
+      .from(media)
+      .where(eq(media.id, id))
+      .limit(1);
+    return result[0];
+  } catch (error) {
+    console.error(`Помилка при отриманні медіа з ID ${id}:`, error);
     throw new Error("Не вдалося отримати медіа.");
   }
 }
@@ -41,7 +55,7 @@ export async function addMedia(formData: FormData): Promise<MediaFormState> {
   }
 
   try {
-     await db
+    await db
       .insert(media)
       .values({
         title: result.data.title,
@@ -60,4 +74,9 @@ export async function addMedia(formData: FormData): Promise<MediaFormState> {
       message: "Не вдалося додати медіа. Спробуйте пізніше.",
     };
   }
+}
+export async function deleteMedia(id: number): Promise<void> {
+  await db.delete(media).where(eq(media.id, id));
+  revalidatePath("/media");
+  redirect("/media");
 }

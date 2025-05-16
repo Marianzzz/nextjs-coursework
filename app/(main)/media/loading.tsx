@@ -1,4 +1,4 @@
-import SkeletonCard from "@/components/skeleton-media";
+import SkeletonCard from "./components/skeleton-media";
 
 export default function Loading() {
   return (
