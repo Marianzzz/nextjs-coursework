@@ -1,11 +1,14 @@
 import { deleteMedia, getMediaById } from "@/app/actions/media";
 import MediaEdit from "../components/edit-delete-media";
+import { getAllDisciplines } from "@/app/actions/disciplines";
 import { notFound } from 'next/navigation';
 
 export default async function MediaOperation({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const numericId = Number(id);
     const mediaItem = await getMediaById(numericId);
+    const disciplines = await getAllDisciplines();
+
     if (!mediaItem) {
         notFound();
     }
@@ -15,5 +18,5 @@ export default async function MediaOperation({ params }: { params: Promise<{ id:
         await deleteMedia(mediaItem.id);
     }
 
-    return <MediaEdit onDelete={handleDelete} />;
+    return <MediaEdit media={mediaItem} disciplines={disciplines} onDelete={handleDelete} />;
 }

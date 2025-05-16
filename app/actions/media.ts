@@ -75,6 +75,53 @@ export async function addMedia(formData: FormData): Promise<MediaFormState> {
     };
   }
 }
+
+export async function updateMedia(
+  id: number,
+  formData: FormData,
+): Promise<MediaFormState> {
+  const raw = {
+    title: formData.get("title"),
+    videoUrl: formData.get("videoUrl"),
+    disciplineId: formData.get("disciplineId")
+      ? Number(formData.get("disciplineId"))
+      : undefined,
+  };
+
+  const result = MediaSchema.safeParse(raw);
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    return {
+      errors: {
+        title: errors.title,
+        videoUrl: errors.videoUrl,
+        disciplineId: errors.disciplineId,
+      },
+    };
+  }
+
+  try {
+    await db
+      .update(media)
+      .set({
+        title: result.data.title,
+        videoUrl: result.data.videoUrl,
+        disciplineId: result.data.disciplineId ?? null,
+      })
+      .where(eq(media.id, id));
+    revalidatePath("/media");
+
+    return {
+      message: "Медіа успішно оновлено.",
+    };
+  } catch (error) {
+    console.error(`Помилка при оновленні медіа з ID ${id}:`, error);
+    return {
+      message: "Не вдалося оновити медіа. Спробуйте пізніше.",
+    };
+  }
+}
 export async function deleteMedia(id: number): Promise<void> {
   await db.delete(media).where(eq(media.id, id));
   revalidatePath("/media");

@@ -76,8 +76,7 @@ export const MediaSchema = z.object({
   title: z.string().min(1, "Назва обов'язкова.").trim(),
   videoUrl: z.string().url("Введіть дійсний URL відео.").trim(),
   disciplineId: z
-    .number({ invalid_type_error: "ID дисципліни має бути числом." })
-    .optional(),
+    .number({ invalid_type_error: "Дисципліна обов'язкова." })
 });
 
 export type MediaFormState =
@@ -99,3 +98,14 @@ export type Discipline = {
 export type FormMedia = {
   disciplines: Discipline[];
 };
+
+export interface MediaEditProps {
+  media: {
+    id: number;
+    title: string;
+    videoUrl: string;
+    disciplineId?: number | null;
+  };
+  disciplines: { id: number; name: string }[];
+  onDelete: (formData: FormData) => void;
+}
