@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 }
 
 
-import LoginForm from '@/components/login-form';
+import LoginForm from './components/login-form';
 
 export default async function LoginPage() {
    const session = await getSession();

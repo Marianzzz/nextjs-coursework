@@ -4,7 +4,7 @@ import { db } from "@/db/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Metadata } from 'next'
-import Profile from "@/components/profile";
+import Profile from "./components/profile";
 
 
 export const metadata: Metadata = {

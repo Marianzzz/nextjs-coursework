@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import SignupForm from '@/components/signup-form';
+import SignupForm from './components/signup-form';
 import type { Metadata } from 'next'
  
 export const metadata: Metadata = {

@@ -1,18 +1,18 @@
 'use client';
 
-import { signup } from '@/app/actions/auth';
+import { login } from '@/app/actions/auth';
 import { useActionState } from 'react';
 import { FormState } from '@/lib/definitions';
 import Link from 'next/link';
 
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-export default function SignupForm() {
+export default function LoginForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(
-    signup,
+    login,
     { errors: undefined, message: undefined }
   );
 
@@ -20,7 +20,7 @@ export default function SignupForm() {
     <div className="flex items-center justify-center min-h-[calc(100vh-10rem)] px-4 mt-16">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Реєстрація</CardTitle>
+          <CardTitle className="text-2xl text-center">Вхід</CardTitle>
         </CardHeader>
 
         <form action={action}>
@@ -63,13 +63,13 @@ export default function SignupForm() {
 
           <CardFooter className="flex flex-col gap-2">
             <Button type="submit" className="w-full" disabled={pending}>
-              {pending ? 'Завантаження...' : 'Створити акаунт'}
+              {pending ? 'Завантаження...' : 'Увійти'}
             </Button>
 
             <p className="text-sm text-center">
-              Маєш акаунт?{' '}
-              <Link href="/login" className="underline">
-                Увійди
+              Немає акаунту?
+              <Link href="/signup" className="underline">
+                Зареєструйся
               </Link>
             </p>
           </CardFooter>
