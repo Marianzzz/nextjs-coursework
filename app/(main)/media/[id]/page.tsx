@@ -4,6 +4,25 @@ import { getAllDisciplines } from "@/app/actions/disciplines";
 import { notFound } from 'next/navigation';
 import { isAdmin } from "@/lib/admin";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const numericId = Number(params.id);
+  const media = await getMediaById(numericId);
+
+  if (!media) {
+    return {
+      title: "Медіа не знайдено",
+      description: "Сторінка не знайдена або медіа не існує.",
+    };
+  }
+
+  return {
+    title: `Редагування медіа — ${media.title}`,
+    description: `Сторінка редагування медіафайлу: ${media.title}`,
+  };
+}
 
 export default async function MediaOperation({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
