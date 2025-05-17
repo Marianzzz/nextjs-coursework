@@ -3,6 +3,7 @@ import { PageProps } from '@/lib/definitions';
 import { getNewsById } from '@/app/actions/news';
 import { getDisciplineById, getAllDisciplines } from '@/app/actions/disciplines';
 import { getSession } from '@/lib/session';
+import { notFound } from 'next/navigation';
 import { isAdmin } from '@/lib/admin';
 import AlertSession from '@/components/alert-session';
 import NewsCard from '../components/full-news';
@@ -33,6 +34,10 @@ export default async function NewsPage({ params }: PageProps) {
     const { id } = await params;
     const numericId = Number(id);
     const newsItem = await getNewsById(numericId);
+
+      if (!newsItem) {
+        notFound();
+      }
 
     const discipline =
         newsItem.disciplineId !== null
