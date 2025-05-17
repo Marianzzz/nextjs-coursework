@@ -1,24 +1,12 @@
-import {
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  date,
-  integer,
-  varchar,
-  pgEnum,
-} from "drizzle-orm/pg-core";
-
+import { pgTable, serial, text, timestamp, date, varchar, pgEnum, integer } from "drizzle-orm/pg-core";
 
 export const matchStatusEnum = pgEnum("match_status", ["live", "finished", "upcoming"]);
 export const userRoleEnum = pgEnum("role", ["user", "admin"]);
 
-
-
 export const disciplines = pgTable("disciplines", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
-  imageUrl: text("image_url"), 
+  imageUrl: text("image_url"),
 });
 
 export const news = pgTable("news", {
@@ -44,16 +32,14 @@ export const matches = pgTable("matches", {
   id: serial("id").primaryKey(),
   opponent: text("opponent").notNull(),
   date: timestamp("date").notNull(),
-
-  status: matchStatusEnum("status").notNull(), 
-  result: text("result"), 
-
+  status: matchStatusEnum("status").notNull(),
+  result: text("result"),
   tournamentId: integer("tournament_id").references(() => tournaments.id, {
     onDelete: "set null",
   }),
   disciplineId: integer("discipline_id").references(() => disciplines.id, {
     onDelete: "set null",
-  })
+  }),
 });
 
 export const teams = pgTable("teams", {
@@ -69,7 +55,7 @@ export const players = pgTable("players", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   tag: text("tag").notNull(),
-  teamId: integer("team_id").references(() => teams.id, { onDelete: "cascade"}),
+  teamId: integer("team_id").references(() => teams.id, { onDelete: "cascade" }),
   disciplineId: integer("discipline_id").references(() => disciplines.id, {
     onDelete: "set null",
   }),
@@ -85,13 +71,12 @@ export const media = pgTable("media", {
   }),
 });
 
-
 export const users = pgTable("user", {
-  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()), 
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text("name"),
   email: text("email").unique().notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   passwordHash: text("passwordHash").notNull(),
-  role: userRoleEnum("role").default("user").notNull(), 
+  role: userRoleEnum("role").default("user").notNull(),
 });

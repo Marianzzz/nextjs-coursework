@@ -1,5 +1,5 @@
 {
-  "id": "5526da3c-021a-42a5-a3df-bb3a659665bb",
+  "id": "73707935-576e-443e-a248-08da85b63b0b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -60,7 +60,6 @@
         "status": {
           "name": "status",
           "type": "match_status",
-          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -392,10 +391,30 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "discipline_id": {
+          "name": "discipline_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "tournaments_discipline_id_disciplines_id_fk": {
+          "name": "tournaments_discipline_id_disciplines_id_fk",
+          "tableFrom": "tournaments",
+          "tableTo": "disciplines",
+          "columnsFrom": [
+            "discipline_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -445,7 +464,6 @@
         "role": {
           "name": "role",
           "type": "role",
-          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
           "default": "'user'"
@@ -468,25 +486,7 @@
       "isRLSEnabled": false
     }
   },
-  "enums": {
-    "public.match_status": {
-      "name": "match_status",
-      "schema": "public",
-      "values": [
-        "live",
-        "finished",
-        "upcoming"
-      ]
-    },
-    "public.role": {
-      "name": "role",
-      "schema": "public",
-      "values": [
-        "user",
-        "admin"
-      ]
-    }
-  },
+  "enums": {},
   "schemas": {},
   "sequences": {},
   "roles": {},

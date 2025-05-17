@@ -1,5 +1,3 @@
-CREATE TYPE "public"."match_status" AS ENUM('live', 'finished', 'upcoming');--> statement-breakpoint
-CREATE TYPE "public"."role" AS ENUM('user', 'admin');--> statement-breakpoint
 CREATE TABLE "disciplines" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
@@ -53,7 +51,8 @@ CREATE TABLE "tournaments" (
 	"name" text NOT NULL,
 	"start_date" date NOT NULL,
 	"end_date" date NOT NULL,
-	"prize_pool" text
+	"prize_pool" text,
+	"discipline_id" integer
 );
 --> statement-breakpoint
 CREATE TABLE "user" (
@@ -73,4 +72,5 @@ ALTER TABLE "media" ADD CONSTRAINT "media_discipline_id_disciplines_id_fk" FOREI
 ALTER TABLE "news" ADD CONSTRAINT "news_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "players" ADD CONSTRAINT "players_team_id_teams_id_fk" FOREIGN KEY ("team_id") REFERENCES "public"."teams"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "players" ADD CONSTRAINT "players_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "teams" ADD CONSTRAINT "teams_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;
+ALTER TABLE "teams" ADD CONSTRAINT "teams_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "tournaments" ADD CONSTRAINT "tournaments_discipline_id_disciplines_id_fk" FOREIGN KEY ("discipline_id") REFERENCES "public"."disciplines"("id") ON DELETE set null ON UPDATE no action;

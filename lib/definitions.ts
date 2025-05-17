@@ -151,3 +151,10 @@ export type NewsFormState = {
 export type FormNews = {
   disciplines: Discipline[];
 };
+export type Tournament = {
+  id: number;
+  name: string;
+  startDate: string;
+  endDate: string;
+  prizePool: string | null;
+};
