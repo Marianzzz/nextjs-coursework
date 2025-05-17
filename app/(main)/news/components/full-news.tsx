@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { Discipline, News } from '@/lib/definitions';
+import Link from "next/link";
+import { Button } from '@/components/ui/button';
 
 export default function NewsCard({
   news,
@@ -11,27 +13,40 @@ export default function NewsCard({
   discipline: Discipline | null;
 }) {
   return (
-    <div className="rounded-xl border bg-white shadow-sm p-3 space-y-2">
-      <h3 className="text-base font-semibold">{news.title}</h3>
-      {discipline && <h4 className="text-base font-semibold">{discipline.name}</h4>}
-
-      {news.imageUrl && (
-        <div className="relative w-full overflow-hidden rounded-md">
-          <Image
-            src={news.imageUrl}
-            alt={news.title}
-            fill
-            className="object-cover"
-            onError={() =>
-              console.error(`Помилка завантаження зображення: ${news.imageUrl}`)
-            }
-            sizes="(max-width: 768px) 100vw, 300px"
-          />
-        </div>
-      )}
-      <p className="text-xs text-muted-foreground">
-        Опубліковано: {new Date(news.publishedAt).toLocaleDateString('uk-UA')}
-      </p>
-    </div>
+    <>
+      <div className="rounded-xl border bg-white shadow-sm p-4 space-y-3 max-w-2xl mx-auto mt-10">
+        <h3 className="text-lg font-semibold text-gray-900">{news.title}</h3>
+        {discipline && (
+          <h4 className="text-md font-medium text-gray-700">{discipline.name}</h4>
+        )}
+        {news.imageUrl ? (
+          <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
+            <Image
+              src={news.imageUrl}
+              alt={news.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 672px"
+              onError={() =>
+                console.error(`Помилка завантаження зображення: ${news.imageUrl}`)
+              }
+            />
+          </div>
+        ) : (
+          <div className="relative w-full h-64 rounded-md overflow-hidden bg-gray-100 flex items-center justify-center">
+            <span className="text-gray-500 text-sm">Зображення відсутнє</span>
+          </div>
+        )}
+        <p className="text-sm text-gray-700">{news.content}</p>
+        <p className="text-xs text-gray-500">
+          Опубліковано: {new Date(news.publishedAt).toLocaleDateString('uk-UA')}
+        </p>
+      </div>
+      <div className="flex justify-center gap-4 mt-2">
+        <Link href="/news">
+          <Button>До новин</Button>
+        </Link>
+      </div>
+    </>
   );
 }
