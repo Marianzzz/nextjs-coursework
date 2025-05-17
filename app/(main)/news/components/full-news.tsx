@@ -2,16 +2,23 @@
 
 import Image from 'next/image';
 import { Discipline, News } from '@/lib/definitions';
-import Link from "next/link";
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+
 
 export default function NewsCard({
   news,
   discipline,
+  showAdmin,
+  onDelete,
 }: {
   news: News;
   discipline: Discipline | null;
+  showAdmin: boolean;
+  onDelete?: () => Promise<void>;
 }) {
+  
+
   return (
     <>
       <div className="rounded-xl border bg-white shadow-sm p-4 space-y-3 max-w-2xl mx-auto mt-10">
@@ -46,6 +53,15 @@ export default function NewsCard({
         <Link href="/news">
           <Button>До новин</Button>
         </Link>
+        {showAdmin && (
+          <div className="flex gap-2">
+            <form action={onDelete}>
+              <Button type="submit" variant="destructive">
+                Видалити
+              </Button>
+            </form>
+          </div>
+        )}
       </div>
     </>
   );
