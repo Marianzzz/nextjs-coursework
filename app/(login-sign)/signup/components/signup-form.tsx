@@ -69,7 +69,7 @@ export default function SignupForm() {
             <p className="text-sm text-center">
               Маєш акаунт?{' '}
               <Link href="/login" className="underline">
-                Увійди
+                Увійти
               </Link>
             </p>
           </CardFooter>

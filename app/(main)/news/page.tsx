@@ -1,8 +1,9 @@
 import { getAllNews } from '@/app/actions/news';
 import NewsAddModal from './components/add-news-modal';
-import NewsCard from './components/news';
+import NewsCards from './components/news';
 import { isAdmin } from "@/lib/admin";
 import { getAllDisciplines } from "@/app/actions/disciplines";
+import Link from 'next/link';
 
 import type { Metadata } from 'next'
 
@@ -21,12 +22,15 @@ export default async function NewsPage() {
     <>
       <div className="grid gap-6 md:grid-cols-3 p-10">
         {news.map((n) => (
-          <NewsCard
-            key={n.id}
-            news={n}
-            discipline={allDisciplines.find((d) => d.id === n.disciplineId) || null}
-          />
+          <Link href={`/news/${n.id}`} key={n.id}>
+            <NewsCards
+              key={n.id}
+              news={n}
+              discipline={allDisciplines.find((d) => d.id === n.disciplineId) || null}
+            />
+          </Link>
         ))}
+
       </div>
       {showAdmin && (
         <div className="flex items-center justify-center mb-10">

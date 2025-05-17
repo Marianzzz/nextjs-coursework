@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Discipline, News } from '@/lib/definitions';
 
-export default function NewsCards({
+export default function NewsCard({
   news,
   discipline,
 }: {
@@ -11,12 +11,12 @@ export default function NewsCards({
   discipline: Discipline | null;
 }) {
   return (
-    <div className="rounded-xl border bg-white shadow-sm p-3 space-y-2 hover:bg-accent">
+    <div className="rounded-xl border bg-white shadow-sm p-3 space-y-2">
       <h3 className="text-base font-semibold">{news.title}</h3>
       {discipline && <h4 className="text-base font-semibold">{discipline.name}</h4>}
 
       {news.imageUrl && (
-        <div className="relative w-full aspect-[3/2] overflow-hidden rounded-md">
+        <div className="relative w-full overflow-hidden rounded-md">
           <Image
             src={news.imageUrl}
             alt={news.title}

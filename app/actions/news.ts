@@ -2,7 +2,7 @@
 import { put } from "@vercel/blob";
 import { db } from "@/db/db";
 import { news } from "@/db/schema";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { NewsSchema, NewsFormState } from "@/lib/definitions";
 
@@ -15,6 +15,16 @@ export async function getAllNews() {
     throw new Error("Не вдалося отримати новину.");
   }
 }
+export async function getNewsById(id: number) {
+  try {
+    const result = await db.select().from(news).where(eq(news.id, id)).limit(1);
+    return result[0];
+  } catch (error) {
+    console.error(`Помилка при отриманні новини з ID ${id}:`, error);
+    throw new Error("Не вдалося отримати новину.");
+  }
+}
+
 export async function addNews(formData: FormData): Promise<NewsFormState> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     console.error("BLOB_READ_WRITE_TOKEN не налаштовано");
