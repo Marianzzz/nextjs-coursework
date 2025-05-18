@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { matchStatusEnum } from '@/db/schema';
+
 export type SessionPayload = {
   userId: string;
   role: "user" | "admin";
@@ -157,4 +159,15 @@ export type Tournament = {
   startDate: string;
   endDate: string;
   prizePool: string | null;
+};
+
+export type Match = {
+  id: number;
+  opponent: string;
+  date: Date;
+  status: typeof matchStatusEnum.enumValues[number];
+  result: string | null;
+  tournamentId: number | null;
+  disciplineId: number | null;
+  discipline?: Discipline | null;
 };

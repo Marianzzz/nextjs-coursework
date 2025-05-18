@@ -53,7 +53,7 @@ export default async function NewsPage({ params }: PageProps) {
     }
 
     return (
-        <>
+        <div className='px-4'>
             {userSession ? (
                 <>
                     <NewsCard
@@ -71,6 +71,6 @@ export default async function NewsPage({ params }: PageProps) {
             ) : (
                 <AlertSession pageLink="/news" />
             )}
-        </>
+        </div>
     );
 }

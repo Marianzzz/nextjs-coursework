@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Title from '@/components/title';
  
 export const metadata: Metadata = {
   title: 'Головна сторінка',
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-   <h1>Головна сторінка</h1>
+   <Title>Головна сторінка</Title>
   );
 }

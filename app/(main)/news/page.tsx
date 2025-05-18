@@ -4,6 +4,7 @@ import NewsCards from './components/news';
 import { isAdmin } from "@/lib/admin";
 import { getAllDisciplines } from "@/app/actions/disciplines";
 import Link from 'next/link';
+import Title from '@/components/title';
 
 import type { Metadata } from 'next'
 
@@ -20,7 +21,8 @@ export default async function NewsPage() {
 
   return (
     <>
-      <div className="grid gap-6 md:grid-cols-3 p-10">
+      <Title>Новини</Title>
+      <div className="grid gap-6 md:grid-cols-3 px-10 p-4">
         {news.map((n) => (
           <Link href={`/news/${n.id}`} key={n.id}>
             <NewsCards

@@ -5,6 +5,7 @@ import MediaAddModal from "./components/add-media-modal";
 import { getAllDisciplines } from "@/app/actions/disciplines";
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
+import Title from "@/components/title";
 
 
 import type { Metadata } from 'next'
@@ -21,7 +22,8 @@ export default async function MediaPage() {
 
   return (
     <>
-      <div className="grid gap-6 md:grid-cols-3 p-10">
+      <Title>Медіа</Title>
+      <div className="grid gap-6 md:grid-cols-3 px-10 p-4">
         {media.map((item) => {
           const edit = showAdmin ? (
             <div className="flex justify-center">
