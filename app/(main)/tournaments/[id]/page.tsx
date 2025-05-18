@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import TournamentCard from '../components/tournament';
 import { getDisciplineById } from '@/app/actions/disciplines';
 import MatchesByCategory from '../components/matches-status';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 
 export async function generateMetadata({
@@ -57,8 +59,12 @@ export default async function TournamentsPage({ params }: PageProps) {
                 ) : (
                     <p className="text-center text-sm text-gray-500">Матчі цього турніру ще не додані.</p>
                 )}
+                <div className='flex justify-center'>
+                    <Link href="/tournaments">
+                        <Button>До новин</Button>
+                    </Link>
+                </div>
             </div>
-
         </div>
     );
 }

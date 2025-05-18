@@ -22,18 +22,18 @@ export default async function NewsPage() {
   return (
     <>
       <Title>Новини</Title>
-      <div className="grid gap-6 md:grid-cols-3 px-10 p-4">
-        {news.map((n) => (
-          <Link href={`/news/${n.id}`} key={n.id}>
-            <NewsCards
-              key={n.id}
-              news={n}
-              discipline={allDisciplines.find((d) => d.id === n.disciplineId) || null}
-            />
-          </Link>
-        ))}
-
-      </div>
+      {news.length === 0 ? (<p className="text-center text-gray-500 text-sm px-4 m-5">Наразі немає жодної новини.</p>)
+        : (<div className="grid gap-6 md:grid-cols-3 px-10 p-4">
+          {news.map((n) => (
+            <Link href={`/news/${n.id}`} key={n.id}>
+              <NewsCards
+                key={n.id}
+                news={n}
+                discipline={allDisciplines.find((d) => d.id === n.disciplineId) || null}
+              />
+            </Link>
+          ))}
+        </div>)}
       {showAdmin && (
         <div className="flex items-center justify-center mb-10">
           <NewsAddModal disciplines={allDisciplines} />
