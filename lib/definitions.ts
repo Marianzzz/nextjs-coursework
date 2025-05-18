@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { matchStatusEnum } from '@/db/schema';
+import { matchStatusEnum } from "@/db/schema";
 
 export type SessionPayload = {
   userId: string;
@@ -77,8 +77,7 @@ export type Video = {
 export const MediaSchema = z.object({
   title: z.string().min(1, "Назва обов'язкова.").trim(),
   videoUrl: z.string().url("Введіть дійсний URL відео.").trim(),
-  disciplineId: z
-    .number({ invalid_type_error: "Дисципліна обов'язкова." })
+  disciplineId: z.number({ invalid_type_error: "Дисципліна обов'язкова." }),
 });
 
 export type MediaFormState =
@@ -126,17 +125,17 @@ export type News = {
 };
 
 export const NewsSchema = z.object({
-  title: z.string().min(1, { message: 'Заголовок обов’язковий' }).max(255),
-  content: z.string().min(1, { message: 'Вміст обов’язковий' }),
+  title: z.string().min(1, { message: "Заголовок обов’язковий" }).max(255),
+  content: z.string().min(1, { message: "Вміст обов’язковий" }),
   disciplineId: z.number().int().positive().optional(),
   image: z
     .instanceof(File)
     .refine(
-      (file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
-      { message: 'Дозволені лише JPEG, PNG або WebP' }
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      { message: "Дозволені лише JPEG, PNG або WebP" },
     )
     .refine((file) => file.size <= 4.5 * 1024 * 1024, {
-      message: 'Файл не може бути більшим за 4.5 МБ',
+      message: "Файл не може бути більшим за 4.5 МБ",
     })
     .optional(),
 });
@@ -165,9 +164,47 @@ export type Match = {
   id: number;
   opponent: string;
   date: Date;
-  status: typeof matchStatusEnum.enumValues[number];
+  status: (typeof matchStatusEnum.enumValues)[number];
   result: string | null;
   tournamentId: number | null;
   disciplineId: number | null;
   discipline?: Discipline | null;
+};
+export const TournamentSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Назва турніру обов’язкова")
+    .max(100, "Назва не може бути довшою за 100 символів"),
+  startDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Вкажіть коректну дату початку (YYYY-MM-DD)")
+    .refine(
+      (date) => new Date(date).toString() !== "Invalid Date",
+      "Некоректна дата початку",
+    ),
+  endDate: z
+    .string()
+    .regex(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Вкажіть коректну дату закінчення (YYYY-MM-DD)",
+    )
+    .refine(
+      (date) => new Date(date).toString() !== "Invalid Date",
+      "Некоректна дата закінчення",
+    ),
+  prizePool: z
+    .string()
+    .min(1, "Призовий фонд турніру обов’язкова")
+    .max(50, "Призовий фонд не може бути довшим за 50 символів")
+    .nullable(),
+});
+
+export type TournamentFormState = {
+  errors?: {
+    name?: string[];
+    startDate?: string[];
+    endDate?: string[];
+    prizePool?: string[];
+  };
+  message?: string;
 };

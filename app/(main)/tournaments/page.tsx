@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { getAllTournaments } from '@/app/actions/tournaments';
 import TournamentCard from './components/tournaments';
 import Title from '@/components/title';
+import { isAdmin } from '@/lib/admin';
+import AddTournamentModal from './components/add-tournament';
 
 import type { Metadata } from 'next'
 
@@ -13,6 +15,8 @@ export const metadata: Metadata = {
 
 export default async function TournamentsPage() {
   const tournaments = await getAllTournaments();
+  const showAdmin = await isAdmin();
+
 
   return (
     <>
@@ -26,6 +30,9 @@ export default async function TournamentsPage() {
           ))}
         </div>
       </div>
+      {showAdmin && (<div className="flex items-center justify-center mb-10">
+        <AddTournamentModal />
+      </div>)}
     </>
   );
 }
