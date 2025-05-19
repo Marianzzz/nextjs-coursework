@@ -8,6 +8,8 @@ import { getDisciplineById } from '@/app/actions/disciplines';
 import MatchesByCategory from '../components/matches-status';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { isAdmin } from '@/lib/admin';
+import EditTournamentModal from '../components/edit-delete-tournaments';
 
 
 export async function generateMetadata({
@@ -49,6 +51,7 @@ export default async function TournamentsPage({ params }: PageProps) {
             };
         })
     );
+    const showAdmin = await isAdmin();
 
     return (
         <div className="space-y-6 py-6 p-4">
@@ -61,9 +64,14 @@ export default async function TournamentsPage({ params }: PageProps) {
                 )}
                 <div className='flex justify-center'>
                     <Link href="/tournaments">
-                        <Button>До новин</Button>
+                        <Button>До турнірів</Button>
                     </Link>
                 </div>
+                {showAdmin && (
+                    <div className="flex items-center justify-center mb-10">
+                        <EditTournamentModal tournament={tournament} />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -78,3 +78,48 @@ export async function addTournament(formData: FormData): Promise<TournamentFormS
     };
   }
 }
+export async function updateTournament(
+  id: number,
+  formData: FormData,
+): Promise<TournamentFormState> {
+  const raw = {
+    name: formData.get("name"),
+    startDate: formData.get("startDate"),
+    endDate: formData.get("endDate"),
+    prizePool: formData.get("prizePool"),
+  };
+
+  const result = TournamentSchema.safeParse(raw);
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors;
+    return {
+      errors: {
+        name: errors.name,
+        startDate: errors.startDate,
+        endDate: errors.endDate,
+        prizePool: errors.prizePool,
+      },
+    };
+  }
+
+  try {
+    await db
+      .update(tournaments)
+      .set({
+        name: result.data.name,
+        startDate: result.data.startDate,
+        endDate: result.data.endDate,     
+        prizePool: result.data.prizePool ?? null,
+      })
+      .where(eq(tournaments.id, id));
+
+    revalidatePath('/tournaments');
+    revalidatePath(`/tournaments/${id}`);
+
+    return { message: 'Турнір успішно оновлено.' };
+  } catch (error) {
+    console.error(`Помилка при оновленні турніру з ID ${id}:`, error);
+    return { message: 'Не вдалося оновити турнір. Спробуйте пізніше.' };
+  }
+}
