@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/db/db";
 import { matches } from "@/db/schema";
-import { desc, eq, asc } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { MatchSchema, MatchFormState } from "@/lib/definitions";
 
@@ -21,7 +21,7 @@ export async function getMatchesByTournamentId(tournamentId: number) {
       .select()
       .from(matches)
       .where(eq(matches.tournamentId, tournamentId))
-      .orderBy(desc(matches.date));
+      .orderBy(asc(matches.date));
     return result;
   } catch (error) {
     console.error("Помилка при отриманні матчів турніру:", error);

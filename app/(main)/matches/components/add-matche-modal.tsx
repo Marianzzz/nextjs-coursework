@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useRef } from 'react';
+import { useActionState, useRef, useState } from 'react';
 import { addMatch } from '@/app/actions/matches';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,10 +21,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { MatchFormState, FormMatch } from '@/lib/definitions';
+import { MatchFormState } from '@/lib/definitions';
+
+type FormMatch = {
+  tournaments: { id: number; name: string; startDate: string; endDate: string }[];
+  disciplines: { id: number; name: string }[];
+};
 
 export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
   const formRef = useRef<HTMLFormElement>(null);
+  const [selectedTournamentId, setSelectedTournamentId] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>('upcoming');
 
   const actionHandler = async (
     _prevState: MatchFormState,
@@ -57,6 +64,8 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
 
     if (result.message && !result.errors) {
       formRef.current?.reset();
+      setSelectedTournamentId(null);
+      setSelectedStatus('upcoming'); 
     }
 
     return result;
@@ -66,6 +75,17 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
     actionHandler,
     { errors: undefined, message: undefined }
   );
+
+  const selectedTournament = tournaments.find(
+    (t) => t.id.toString() === selectedTournamentId
+  );
+
+  const minDate = selectedTournament
+    ? new Date(selectedTournament.startDate).toISOString().slice(0, 16)
+    : undefined;
+  const maxDate = selectedTournament
+    ? new Date(selectedTournament.endDate).toISOString().slice(0, 16)
+    : undefined;
 
   return (
     <Dialog>
@@ -100,6 +120,8 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
                 name="date"
                 type="datetime-local"
                 className="col-span-3"
+                min={minDate}
+                max={maxDate}
               />
               {state?.errors?.date && (
                 <p className="col-span-4 text-sm text-red-500">
@@ -111,7 +133,11 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
               <Label htmlFor="status" className="text-right">
                 Статус
               </Label>
-              <Select name="status" defaultValue="upcoming">
+              <Select
+                name="status"
+                defaultValue="upcoming"
+                onValueChange={(value) => setSelectedStatus(value)}
+              >
                 <SelectTrigger id="status" className="col-span-3">
                   <SelectValue placeholder="Вибрати статус" />
                 </SelectTrigger>
@@ -131,7 +157,12 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
               <Label htmlFor="result" className="text-right">
                 Результат
               </Label>
-              <Input id="result" name="result" className="col-span-3" />
+              <Input
+                id="result"
+                name="result"
+                className="col-span-3"
+                disabled={selectedStatus === 'upcoming'}
+              />
               {state?.errors?.result && (
                 <p className="col-span-4 text-sm text-red-500">
                   {state.errors.result[0]}
@@ -142,7 +173,11 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
               <Label htmlFor="tournamentId" className="text-right">
                 Турнір
               </Label>
-              <Select name="tournamentId" defaultValue="none">
+              <Select
+                name="tournamentId"
+                defaultValue="none"
+                onValueChange={(value) => setSelectedTournamentId(value)}
+              >
                 <SelectTrigger id="tournamentId" className="col-span-3">
                   <SelectValue placeholder="Вибрати турнір" />
                 </SelectTrigger>
@@ -188,7 +223,6 @@ export default function MatchAddModal({ tournaments, disciplines }: FormMatch) {
               <p className="text-sm text-green-600">{state.message}</p>
             )}
           </div>
-
           <DialogFooter>
             <Button type="submit" disabled={pending}>
               {pending ? 'Завантаження...' : 'Додати'}
