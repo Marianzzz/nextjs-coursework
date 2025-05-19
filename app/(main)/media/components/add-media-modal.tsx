@@ -34,7 +34,7 @@ export default function MediaAddModal({ disciplines }: FormMedia) {
         const disciplineIdRaw = formData.get("disciplineId");
 
         const disciplineId =
-            disciplineIdRaw && disciplineIdRaw !== "none"
+            disciplineIdRaw && disciplineIdRaw !== 'none'
                 ? Number(disciplineIdRaw)
                 : undefined;
 
@@ -86,7 +86,7 @@ export default function MediaAddModal({ disciplines }: FormMedia) {
                             )}
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="videoUrl" className="text-right">
+                            <Label htmlFor="videoUrl" className="text-left">
                                 Відео посилання
                             </Label>
                             <Input id="videoUrl" name="videoUrl" className="col-span-3" />
@@ -119,7 +119,7 @@ export default function MediaAddModal({ disciplines }: FormMedia) {
                                 </p>
                             )}
                         </div>
-                         {state?.message && (
+                        {state?.message && (
                             <p className="text-sm text-green-600">{state.message}</p>
                         )}
                     </div>

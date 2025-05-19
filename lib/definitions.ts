@@ -77,7 +77,7 @@ export type Video = {
 export const MediaSchema = z.object({
   title: z.string().min(1, "Назва обов'язкова.").trim(),
   videoUrl: z.string().url("Введіть дійсний URL відео.").trim(),
-  disciplineId: z.number({ invalid_type_error: "Дисципліна обов'язкова." }),
+  disciplineId: z.number({ required_error: "Дисципліна обов'язкова." }),
 });
 
 export type MediaFormState =
@@ -207,4 +207,53 @@ export type TournamentFormState = {
     prizePool?: string[];
   };
   message?: string;
+};
+export const MatchSchema = z.object({
+  opponent: z
+    .string()
+    .min(1, "Назва суперника обов’язкова")
+    .max(100, "Назва суперника не може бути довшою за 100 символів"),
+  date: z
+    .string()
+    .regex(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
+      "Вкажіть коректну дату і час (YYYY-MM-DDTHH:mm)",
+    )
+    .refine(
+      (date) => new Date(date).toString() !== "Invalid Date",
+      "Некоректна дата і час",
+    ),
+  status: z.enum(["live", "finished", "upcoming"], {
+    errorMap: () => ({ message: "Виберіть коректний статус матчу" }),
+  }),
+  result: z
+    .string()
+    .max(50, "Результат не може бути довшим за 50 символів")
+    .optional()
+    .nullable(),
+  tournamentId: z
+    .number({ required_error: "Турнір суперника обов’язковий" })
+    .int()
+    .min(1, "Виберіть турнір зі списку"),
+
+  disciplineId: z
+    .number({ required_error: "Дисципліна обов'язкова" })
+    .int()
+    .min(1, "Виберіть дисципліну зі списку"),
+});
+
+export type MatchFormState = {
+  errors?: {
+    opponent?: string[];
+    date?: string[];
+    status?: string[];
+    result?: string[];
+    tournamentId?: string[];
+    disciplineId?: string[];
+  };
+  message?: string;
+};
+export type FormMatch = {
+  tournaments: { id: number; name: string }[];
+  disciplines: { id: number; name: string }[];
 };
