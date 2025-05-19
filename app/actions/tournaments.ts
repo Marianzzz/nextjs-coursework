@@ -1,9 +1,10 @@
 "use server";
 import { db } from "@/db/db";
-import { tournaments } from "@/db/schema";
+import { tournaments, matches } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
-import { TournamentFormState, TournamentSchema } from '@/lib/definitions';
+import { TournamentFormState, TournamentSchema } from "@/lib/definitions";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function getAllTournaments() {
   try {
@@ -31,14 +32,16 @@ export async function getTournamentById(id: number) {
   }
 }
 
-export async function addTournament(formData: FormData): Promise<TournamentFormState> {
+export async function addTournament(
+  formData: FormData,
+): Promise<TournamentFormState> {
   const raw = {
-    name: formData.get('name'),
-    startDate: formData.get('startDate'),
-    endDate: formData.get('endDate'),
-    prizePool: formData.get('prizePool'),
-    disciplineId: formData.get('disciplineId')
-      ? Number(formData.get('disciplineId'))
+    name: formData.get("name"),
+    startDate: formData.get("startDate"),
+    endDate: formData.get("endDate"),
+    prizePool: formData.get("prizePool"),
+    disciplineId: formData.get("disciplineId")
+      ? Number(formData.get("disciplineId"))
       : undefined,
   };
 
@@ -67,14 +70,14 @@ export async function addTournament(formData: FormData): Promise<TournamentFormS
       })
       .returning();
 
-    revalidatePath('/tournaments');
+    revalidatePath("/tournaments");
     return {
-      message: 'Турнір успішно додано.',
+      message: "Турнір успішно додано.",
     };
   } catch (error) {
-    console.error('Помилка при додаванні турніру:', error);
+    console.error("Помилка при додаванні турніру:", error);
     return {
-      message: 'Не вдалося додати турнір. Спробуйте пізніше.',
+      message: "Не вдалося додати турнір. Спробуйте пізніше.",
     };
   }
 }
@@ -109,17 +112,26 @@ export async function updateTournament(
       .set({
         name: result.data.name,
         startDate: result.data.startDate,
-        endDate: result.data.endDate,     
+        endDate: result.data.endDate,
         prizePool: result.data.prizePool ?? null,
       })
       .where(eq(tournaments.id, id));
 
-    revalidatePath('/tournaments');
+    revalidatePath("/tournaments");
     revalidatePath(`/tournaments/${id}`);
 
-    return { message: 'Турнір успішно оновлено.' };
+    return { message: "Турнір успішно оновлено." };
   } catch (error) {
     console.error(`Помилка при оновленні турніру з ID ${id}:`, error);
-    return { message: 'Не вдалося оновити турнір. Спробуйте пізніше.' };
+    return { message: "Не вдалося оновити турнір. Спробуйте пізніше." };
   }
+}
+
+export async function deleteTournament(id: number): Promise<void> {
+  await db.delete(matches).where(eq(matches.tournamentId, id));
+
+  await db.delete(tournaments).where(eq(tournaments.id, id));
+
+  revalidatePath("/tournaments");
+  redirect("/tournaments");
 }

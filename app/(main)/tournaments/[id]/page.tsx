@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageProps } from '@/lib/definitions';
-import { getTournamentById } from '@/app/actions/tournaments';
+import { getTournamentById, deleteTournament } from '@/app/actions/tournaments';
 import { getMatchesByTournamentId } from '@/app/actions/matches';
 import { notFound } from 'next/navigation';
 import TournamentCard from '../components/tournament';
@@ -52,6 +52,10 @@ export default async function TournamentsPage({ params }: PageProps) {
         })
     );
     const showAdmin = await isAdmin();
+    async function handleDelete() {
+        'use server';
+        await deleteTournament(tournament.id);
+    }
 
     return (
         <div className="space-y-6 py-6 p-4">
@@ -62,10 +66,17 @@ export default async function TournamentsPage({ params }: PageProps) {
                 ) : (
                     <p className="text-center text-sm text-gray-500">Матчі цього турніру ще не додані.</p>
                 )}
-                <div className='flex justify-center'>
+                <div className='flex justify-center gap-4'>
                     <Link href="/tournaments">
                         <Button>До турнірів</Button>
                     </Link>
+                    {showAdmin && (
+                        <form action={handleDelete}>
+                            <Button type="submit" variant="destructive">
+                                Видалити
+                            </Button>
+                        </form>
+                    )}
                 </div>
                 {showAdmin && (
                     <div className="flex items-center justify-center mb-10">
