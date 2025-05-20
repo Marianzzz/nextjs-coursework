@@ -25,12 +25,14 @@ import Link from 'next/link';
 type FormMatch = {
   tournaments: { id: number; name: string; startDate: string; endDate: string }[];
   disciplines: { id: number; name: string }[];
+  onDelete: (formData: FormData) => void;
 };
 
 export default function EditMatchModal({
   match,
   tournaments,
   disciplines,
+  onDelete,
 }: { match: Match } & FormMatch) {
   const [opponent, setOpponent] = useState(match.opponent);
   const [date, setDate] = useState(
@@ -228,6 +230,11 @@ export default function EditMatchModal({
                 {pending ? 'Оновлення...' : 'Оновити'}
               </Button>
             </div>
+          </form>
+          <form action={onDelete} className="flex justify-center mt-2">
+            <Button variant="destructive" type="submit">
+              Видалити
+            </Button>
           </form>
         </CardContent>
       </Card>

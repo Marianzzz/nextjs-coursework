@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { PageProps } from '@/lib/definitions';
-import { getMatchById } from '@/app/actions/matches';
+import { getMatchById, deleteMatch } from '@/app/actions/matches';
 import { getAllDisciplines } from '@/app/actions/disciplines';
 import { getAllTournaments } from '@/app/actions/tournaments';
-import EditMatchModal from '../components/edit-match';
+import EditMatchModal from '../components/edit-delete-match';
 import { isAdmin } from '@/lib/admin';
 import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -27,18 +28,21 @@ export default async function MatchPage({ params }: PageProps) {
     const { id } = await params;
     const numericId = Number(id);
     const matchItem = await getMatchById(numericId);
+    const showAdmin = await isAdmin();
+
 
     if (!matchItem) {
         notFound();
     }
-
-    // const discipline =
-    //     matchItem.disciplineId !== null
-    //         ? await getDisciplineById(matchItem.disciplineId)
-    //         : null;
-    const showAdmin = await isAdmin();
+    if (!showAdmin) {
+        redirect('/matches');
+    }
     const tournaments = await getAllTournaments();
     const disciplines = await getAllDisciplines();
+    async function handleDelete() {
+        "use server";
+        await deleteMatch(matchItem.id);
+    }
 
     return (
         <div className="max-w-2xl mx-auto space-y-4">
@@ -48,6 +52,7 @@ export default async function MatchPage({ params }: PageProps) {
                         match={matchItem}
                         tournaments={tournaments}
                         disciplines={disciplines}
+                        onDelete={handleDelete}
                     />
                 </div>
             )}

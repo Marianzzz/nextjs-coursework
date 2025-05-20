@@ -4,6 +4,7 @@ import { matches } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { MatchSchema, MatchFormState } from "@/lib/definitions";
+import { redirect } from "next/navigation";
 
 export async function getAllMatches() {
   try {
@@ -156,4 +157,9 @@ export async function updateMatch(
     console.error(`Помилка при оновленні матчу з ID ${id}:`, error);
     return { message: "Не вдалося оновити матч. Спробуйте пізніше." };
   }
+}
+export async function deleteMatch(id: number): Promise<void> {
+  await db.delete(matches).where(eq(matches.id, id));
+  revalidatePath("/matches");
+  redirect("/matches");
 }
