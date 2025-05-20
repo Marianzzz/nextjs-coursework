@@ -297,3 +297,31 @@ export type TeamFormState = {
 export type FormTeam = {
   disciplines: Discipline[];
 };
+export const PlayerSchema = z.object({
+  name: z.string().min(2, "Ім’я надто коротке"),
+  tag: z.string().min(2, "Тег надто короткий"),
+  teamId: z.number({ required_error: "Команда обов'язкова" }).int().positive(),
+  disciplineId: z
+    .number({ required_error: "Дисципліна обов'язкова" })
+    .int()
+    .positive()
+});
+
+export type PlayerFormState = {
+  errors?: {
+    name?: string[];
+    tag?: string[];
+    teamId?: string[];
+    disciplineId?: string[];
+  };
+  message?: string;
+};
+export type PlayersProps = {
+  disciplines: { id: number; name: string }[];
+  teams: {
+    id: number;
+    name: string;
+    tag: string;
+    discipline: { id: number; name: string } | null;
+  }[];
+};
