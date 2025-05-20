@@ -258,22 +258,42 @@ export type FormMatch = {
   disciplines: { id: number; name: string }[];
 };
 export interface Player {
-    id: number;
-    name: string;
-    tag: string;
+  id: number;
+  name: string;
+  tag: string;
 }
 
 export interface Team {
-    id: number;
-    name: string;
-    tag: string;
-    discipline?: Discipline | null;
-    players?: Player[];
+  id: number;
+  name: string;
+  tag: string;
+  discipline?: Discipline | null;
+  players?: Player[];
 }
 
 export interface TeamsProps {
-    teams: Team[];
+  teams: Team[];
 }
 export interface PlayersCardProps {
-    players: Player[];
+  players: Player[];
 }
+export const TeamSchema = z.object({
+  name: z.string().min(2, "Назва має містити щонайменше 2 символи"),
+  tag: z.string().min(1, "Тег обовʼязковий"),
+  disciplineId: z
+    .number({ required_error: "Дисципліна обов'язкова" })
+    .int()
+    .min(1, "Виберіть дисципліну зі списку"),
+});
+
+export type TeamFormState = {
+  errors?: {
+    name?: string[];
+    tag?: string[];
+    disciplineId?: string[];
+  };
+  message?: string;
+};
+export type FormTeam = {
+  disciplines: Discipline[];
+};

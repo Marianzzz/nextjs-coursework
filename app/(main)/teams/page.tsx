@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import TeamsCard from './components/teams'
 import Title from '@/components/title';
 import { getTeamsWithPlayers } from '@/app/actions/teams';
+import { isAdmin } from '@/lib/admin';
+import { getAllDisciplines } from '@/app/actions/disciplines';
+import TeamsAddModal from './components/add-teams-modal';
 
 export const metadata: Metadata = {
     title: 'Команди',
@@ -10,6 +13,9 @@ export const metadata: Metadata = {
 
 export default async function TeamsPage() {
     const teams = await getTeamsWithPlayers();
+      const allDisciplines = await getAllDisciplines();
+      const showAdmin = await isAdmin();
+    
 
     return (
         <>
@@ -19,6 +25,11 @@ export default async function TeamsPage() {
                     <TeamsCard teams={teams} />
                 </div>
             </div>}
+            {showAdmin && (
+                <div className="flex items-center justify-center mb-10">
+                    <TeamsAddModal disciplines={allDisciplines} />
+                </div>
+            )}
         </>
     );
 }
