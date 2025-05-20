@@ -257,16 +257,23 @@ export type FormMatch = {
   tournaments: { id: number; name: string }[];
   disciplines: { id: number; name: string }[];
 };
+export interface Player {
+    id: number;
+    name: string;
+    tag: string;
+}
+
 export interface Team {
     id: number;
     name: string;
     tag: string;
-    discipline?: {
-        id: number;
-        name: string;
-    } | null;
+    discipline?: Discipline | null;
+    players?: Player[];
 }
 
 export interface TeamsProps {
     teams: Team[];
+}
+export interface PlayersCardProps {
+    players: Player[];
 }
