@@ -51,6 +51,7 @@ export default async function Header() {
                                 <NavLink href="/news">Новини</NavLink>
                                 <NavLink href="/tournaments">Турніри</NavLink>
                                 <NavLink href="/matches">Матчі</NavLink>
+                                <NavLink href="/teams">Команди</NavLink>
                                 <NavLink href="/media">Медіа</NavLink>
                                 {session ? (
                                     <>
