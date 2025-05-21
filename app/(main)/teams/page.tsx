@@ -21,7 +21,7 @@ export default async function TeamsPage() {
     return (
         <>
             <Title>Команди</Title>
-            {teams.length === 0 ? <p className="text-center text-gray-500 text-sm px-4 m-5">Наразі немає жодного гравця.</p> : <div className="w-full flex justify-center p-4">
+            {teams.length === 0 ? <p className="text-center text-gray-500 text-sm px-4 m-5">Наразі немає жодної команди.</p> : <div className="w-full flex justify-center p-4">
                 <div className="max-w-7xl w-full">
                     <TeamsCard teams={teams} />
                 </div>

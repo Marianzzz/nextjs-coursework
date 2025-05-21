@@ -31,18 +31,18 @@ export default async function TournamentsPage({ params }: PageProps) {
     const teamItem = await getTeamById(numericId);
     const showAdmin = await isAdmin();
 
-     if (!teamItem) {
-            notFound();
-        }
-        if (!showAdmin) {
-            redirect('/teams');
-        }
-        const disciplines = await getAllDisciplines();
+    if (!teamItem) {
+        notFound();
+    }
+    if (!showAdmin) {
+        redirect('/teams');
+    }
+    const disciplines = await getAllDisciplines();
 
-        async function handleDelete() {
-            "use server";
-            await deleteTeam(teamItem.id);
-        }
+    async function handleDelete() {
+        "use server";
+        await deleteTeam(teamItem.id);
+    }
     return (
         <div className="max-w-2xl mx-auto space-y-4">
             {showAdmin && (

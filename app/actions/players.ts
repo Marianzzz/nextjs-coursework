@@ -2,16 +2,29 @@
 
 import { db } from "@/db/db";
 import { players } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { PlayerSchema, PlayerFormState } from "@/lib/definitions";
 import { revalidatePath } from "next/cache";
+
+export async function getPlayerById(id: number) {
+  try {
+    const result = await db
+      .select()
+      .from(players)
+      .where(eq(players.id, id))
+      .limit(1);
+    return result[0];
+  } catch (error) {
+    console.error(`Помилка при отриманні гравця з ID ${id}:`, error);
+    throw new Error("Не вдалося отримати гравця.");
+  }
+}
 
 export async function addPlayer(formData: FormData): Promise<PlayerFormState> {
   const raw = {
     name: formData.get("name"),
     tag: formData.get("tag"),
-    teamId: formData.get("teamId")
-      ? Number(formData.get("teamId"))
-      : undefined,
+    teamId: formData.get("teamId") ? Number(formData.get("teamId")) : undefined,
     disciplineId: formData.get("disciplineId")
       ? Number(formData.get("disciplineId"))
       : undefined,
@@ -42,7 +55,7 @@ export async function addPlayer(formData: FormData): Promise<PlayerFormState> {
       })
       .returning();
 
-    revalidatePath("/teams"); 
+    revalidatePath("/teams");
     return {
       message: "Гравця успішно додано.",
     };

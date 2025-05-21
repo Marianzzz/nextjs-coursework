@@ -1,3 +1,4 @@
+import { isAdmin } from "@/lib/admin";
 import { PlayersCardProps } from "@/lib/definitions";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -7,9 +8,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-export default function PlayersCard({ players }: PlayersCardProps) {
-  if (players.length === 0) return null;
+
+export default async function PlayersCard({ players }: PlayersCardProps) {
+  const showAdmin = await isAdmin();
 
   const showNavigation = players.length > 3;
 
@@ -30,6 +34,11 @@ export default function PlayersCard({ players }: PlayersCardProps) {
                   <span className="text-sm text-muted-foreground break-words">
                     [{player.tag}]
                   </span>
+                  {showAdmin && (
+                    <Link href={`/players/${player.id}`}>
+                      <Button>Редагування</Button>
+                    </Link>
+                  )}
                 </CardContent>
               </Card>
             </div>
