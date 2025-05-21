@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/db/db";
 import { tournaments, matches } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { TournamentFormState, TournamentSchema } from "@/lib/definitions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -11,7 +11,7 @@ export async function getAllTournaments() {
     const result = await db
       .select()
       .from(tournaments)
-      .orderBy(desc(tournaments.startDate));
+      .orderBy(asc(tournaments.startDate));
     return result;
   } catch (error) {
     console.error("Помилка при отриманні турнірів:", error);

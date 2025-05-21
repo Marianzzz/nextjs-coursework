@@ -20,6 +20,25 @@ export async function getAllTeams() {
     .from(teams)
     .leftJoin(disciplines, eq(teams.disciplineId, disciplines.id));
 }
+
+export async function getTeamsForSelect() {
+  const result = await db
+    .select({
+      id: teams.id,
+      name: teams.name,
+      tag: teams.tag,
+      disciplineId: disciplines.id,
+    })
+    .from(teams)
+    .leftJoin(disciplines, eq(teams.disciplineId, disciplines.id));
+
+  return result.map((team) => ({
+    id: team.id,
+    name: team.name,
+    tag: team.tag,
+    disciplineId: team.disciplineId ?? undefined,
+  }));
+}
 export async function getTeamById(id: number) {
   try {
     const result = await db
@@ -101,10 +120,9 @@ export async function addTeam(formData: FormData): Promise<TeamFormState> {
   const raw = {
     name: formData.get("name"),
     tag: formData.get("tag"),
-    disciplineId:
-      formData.get("disciplineId") 
-        ? Number(formData.get("disciplineId"))
-        : undefined,
+    disciplineId: formData.get("disciplineId")
+      ? Number(formData.get("disciplineId"))
+      : undefined,
   };
 
   const result = TeamSchema.safeParse(raw);
@@ -143,13 +161,13 @@ export async function addTeam(formData: FormData): Promise<TeamFormState> {
 }
 export async function updateTeam(
   id: number,
-  formData: FormData
+  formData: FormData,
 ): Promise<TeamFormState> {
   const raw = {
-    name: formData.get('name'),
-    tag: formData.get('tag'),
-    disciplineId: formData.get('disciplineId')
-      ? Number(formData.get('disciplineId'))
+    name: formData.get("name"),
+    tag: formData.get("tag"),
+    disciplineId: formData.get("disciplineId")
+      ? Number(formData.get("disciplineId"))
       : undefined,
   };
 
@@ -176,15 +194,15 @@ export async function updateTeam(
       })
       .where(eq(teams.id, id));
 
-    revalidatePath('/teams');
+    revalidatePath("/teams");
 
     return {
-      message: 'Команду успішно оновлено.',
+      message: "Команду успішно оновлено.",
     };
   } catch (error) {
     console.error(`Помилка при оновленні команди з ID ${id}:`, error);
     return {
-      message: 'Не вдалося оновити команду. Спробуйте пізніше.',
+      message: "Не вдалося оновити команду. Спробуйте пізніше.",
     };
   }
 }

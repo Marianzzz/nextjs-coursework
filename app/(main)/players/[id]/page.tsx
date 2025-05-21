@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { PageProps } from '@/lib/definitions';
 import { notFound } from 'next/navigation';
-import { getPlayerById } from '@/app/actions/players';
+import { deletePlayer, getPlayerById } from '@/app/actions/players';
+import EditPlayerModal from '../components/edit-delete-player';
+import { getAllDisciplines } from '@/app/actions/disciplines';
+import { getTeamsForSelect } from '@/app/actions/teams';
 import { isAdmin } from '@/lib/admin';
 import { redirect } from 'next/navigation';
 
@@ -32,6 +35,20 @@ export default async function playerPage({ params }: PageProps) {
     if (!showAdmin) {
         redirect('/teams');
     }
+    const disciplines = await getAllDisciplines();
+    const teams = await getTeamsForSelect();
 
-    return <h1>Гравець</h1>
+    async function handleDelete() {
+        "use server";
+        await deletePlayer(playerItem.id);
+    }
+
+    return (
+        <EditPlayerModal
+            player={playerItem}
+            onDelete={handleDelete}
+            disciplines={disciplines}
+            teams={teams}
+        />
+    );
 }

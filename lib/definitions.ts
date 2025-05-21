@@ -261,21 +261,28 @@ export interface Player {
   id: number;
   name: string;
   tag: string;
+  team: { id: number; name: string; tag: string } | null;
+  discipline: { id: number; name: string } | null;
 }
+export type Players = {
+  id: number;
+  name: string;
+  tag: string;
+};
 
 export interface Team {
   id: number;
   name: string;
   tag: string;
   discipline?: Discipline | null;
-  players?: Player[];
+  players?: Players[];
 }
 
 export interface TeamsProps {
   teams: Team[];
 }
 export interface PlayersCardProps {
-  players: Player[];
+  players: Players[];
 }
 export const TeamSchema = z.object({
   name: z.string().min(2, "Назва має містити щонайменше 2 символи"),
@@ -304,7 +311,7 @@ export const PlayerSchema = z.object({
   disciplineId: z
     .number({ required_error: "Дисципліна обов'язкова" })
     .int()
-    .positive()
+    .positive(),
 });
 
 export type PlayerFormState = {
@@ -324,4 +331,10 @@ export type PlayersProps = {
     tag: string;
     discipline: { id: number; name: string } | null;
   }[];
+};
+
+export type FormPlayerProps = {
+    teams: { id: number; name: string; tag: string; disciplineId?: number }[];
+    disciplines: { id: number; name: string }[];
+    onDelete: (formData: FormData) => void;
 };
