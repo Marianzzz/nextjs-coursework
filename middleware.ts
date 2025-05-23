@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/session";
 
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
 
   const session = req.cookies.get("session")?.value;
   if (!session) {
@@ -17,5 +22,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/:path*"],
+  matcher: ["/api/:path*"], 
 };
