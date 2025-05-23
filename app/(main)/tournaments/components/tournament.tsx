@@ -14,7 +14,7 @@ export default function TournamentCard({
             <div className="space-y-2">
                 <p className="text-sm text-gray-700">
                     <span className="font-medium">Призовий фонд:</span>{' '}
-                    {tournament.prizePool || 'Not specified'}$
+                    {tournament.prizePool || 'Не вказано'}$
                 </p>
                 <p className="text-sm text-gray-700">
                     {format(new Date(tournament.startDate), 'd MMMM yyyy', { locale: uk })} -{' '}

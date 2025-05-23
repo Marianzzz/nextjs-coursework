@@ -19,7 +19,7 @@ export async function getAllMedia() {
     throw new Error("Не вдалося отримати медіа.");
   }
 }
-export async function getLastSixMedia() {
+export async function getLastTwoMedia() {
   try {
     const result = await db
       .select({
@@ -33,7 +33,7 @@ export async function getLastSixMedia() {
       .from(media)
       .leftJoin(disciplines, eq(media.disciplineId, disciplines.id))
       .orderBy(desc(media.uploadedAt))
-      .limit(6);
+      .limit(2);
 
     return result.map((mediaItem) => ({
       ...mediaItem,

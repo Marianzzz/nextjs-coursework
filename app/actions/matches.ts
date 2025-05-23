@@ -15,7 +15,7 @@ export async function getAllMatches() {
     throw new Error("Не вдалося отримати матчів.");
   }
 }
-export async function getLastTenMatches() {
+export async function getLastFiveMatches() {
   try {
     const result = await db
       .select({
@@ -33,7 +33,7 @@ export async function getLastTenMatches() {
       .leftJoin(disciplines, eq(matches.disciplineId, disciplines.id))
       .leftJoin(tournaments, eq(matches.tournamentId, tournaments.id))
       .orderBy(asc(matches.date)) 
-      .limit(10); 
+      .limit(5); 
 
     return result.map((match) => ({
       ...match,

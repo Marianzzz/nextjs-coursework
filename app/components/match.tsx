@@ -1,9 +1,9 @@
 import MatchCard from './matchCard'; 
-import { getLastTenMatches } from '@/app/actions/matches'
+import { getLastFiveMatches } from '@/app/actions/matches'
 
 
 export default async function MatchesByCategory() {
-    const matches = await getLastTenMatches();
+    const matches = await getLastFiveMatches();
     const live = matches.filter(m => m.status === 'live');
     const upcoming = matches.filter(m => m.status === 'upcoming');
     const finished = matches.filter(m => m.status === 'finished');

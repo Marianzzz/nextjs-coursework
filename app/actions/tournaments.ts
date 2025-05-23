@@ -18,6 +18,19 @@ export async function getAllTournaments() {
     throw new Error("Не вдалося отримати турнірів.");
   }
 }
+export async function getLastThreeTournaments() {
+  try {
+    const result = await db
+      .select()
+      .from(tournaments)
+      .orderBy(asc(tournaments.startDate))
+      .limit(3);
+    return result;
+  } catch (error) {
+    console.error("Помилка при отриманні трьох турнірів:", error);
+    throw new Error("Не вдалося отримати трьох турнірів.");
+  }
+}
 export async function getTournamentById(id: number) {
   try {
     const result = await db
