@@ -1,7 +1,8 @@
 "use server";
 import { put, del } from "@vercel/blob";
 import { db } from "@/db/db";
-import { news } from "@/db/schema";
+import { news,disciplines } from "@/db/schema";
+
 import { desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { NewsSchema, NewsFormState } from "@/lib/definitions";
@@ -16,6 +17,28 @@ export async function getAllNews() {
     throw new Error("Не вдалося отримати новину.");
   }
 }
+export async function getLastFiveNews() {
+  try {
+    const result = await db
+      .select({
+        id: news.id,
+        title: news.title,
+        imageUrl: news.imageUrl,
+        publishedAt: news.publishedAt,
+        discipline: disciplines.name,
+      })
+      .from(news)
+      .leftJoin(disciplines, eq(news.disciplineId, disciplines.id))
+      .orderBy(desc(news.publishedAt))
+      .limit(5);
+
+    return result;
+  } catch (error) {
+    console.error("Помилка при отриманні останніх новин:", error);
+    throw new Error("Не вдалося отримати останні новини.");
+  }
+}
+
 export async function getNewsById(id: number) {
   try {
     const result = await db.select().from(news).where(eq(news.id, id)).limit(1);
