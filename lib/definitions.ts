@@ -170,6 +170,7 @@ export type Match = {
   disciplineId: number | null;
   discipline?: Discipline | null;
 };
+
 export const TournamentSchema = z.object({
   name: z
     .string()

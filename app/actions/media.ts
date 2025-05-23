@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/db/db";
-import { media } from "@/db/schema";
+import { media, disciplines } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { MediaSchema } from "@/lib/definitions";
 import { MediaFormState } from "@/lib/definitions";
@@ -17,6 +17,31 @@ export async function getAllMedia() {
   } catch (error) {
     console.error("Помилка при отриманні медіа:", error);
     throw new Error("Не вдалося отримати медіа.");
+  }
+}
+export async function getLastSixMedia() {
+  try {
+    const result = await db
+      .select({
+        id: media.id,
+        title: media.title,
+        videoUrl: media.videoUrl,
+        uploadedAt: media.uploadedAt,
+        disciplineId: media.disciplineId,
+        discipline: disciplines,
+      })
+      .from(media)
+      .leftJoin(disciplines, eq(media.disciplineId, disciplines.id))
+      .orderBy(desc(media.uploadedAt))
+      .limit(6);
+
+    return result.map((mediaItem) => ({
+      ...mediaItem,
+      discipline: mediaItem.discipline || null,
+    }));
+  } catch (error) {
+    console.error("Помилка при отриманні останніх 6 медіа:", error);
+    throw new Error("Не вдалося отримати останні 6 медіа.");
   }
 }
 export async function getMediaById(id: number) {

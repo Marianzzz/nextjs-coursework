@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/db/db";
-import { matches } from "@/db/schema";
+import { matches, disciplines, tournaments } from "@/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { MatchSchema, MatchFormState } from "@/lib/definitions";
@@ -15,6 +15,37 @@ export async function getAllMatches() {
     throw new Error("Не вдалося отримати матчів.");
   }
 }
+export async function getLastTenMatches() {
+  try {
+    const result = await db
+      .select({
+        id: matches.id,
+        opponent: matches.opponent, 
+        date: matches.date,
+        status: matches.status,
+        result: matches.result,
+        tournamentId: matches.tournamentId,
+        disciplineId: matches.disciplineId,
+        discipline: disciplines,
+        tournament: tournaments.name,
+      })
+      .from(matches)
+      .leftJoin(disciplines, eq(matches.disciplineId, disciplines.id))
+      .leftJoin(tournaments, eq(matches.tournamentId, tournaments.id))
+      .orderBy(asc(matches.date)) 
+      .limit(10); 
+
+    return result.map((match) => ({
+      ...match,
+      discipline: match.discipline || null, 
+      tournament: match.tournament || null,
+    }));
+  } catch (error) {
+    console.error("Помилка при отриманні останніх матчів:", error);
+    throw new Error("Не вдалося отримати останні матчі.");
+  }
+}
+
 export async function getMatchById(id: number) {
   try {
     const result = await db
