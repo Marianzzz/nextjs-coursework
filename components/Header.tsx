@@ -19,7 +19,7 @@ import {
 export default async function Header() {
     const session = await getSession();
     return (
-        <header className="w-full bg-black text-white shadow-md p-2">
+        <header className="w-full bg-black text-white shadow-md p-4">
             <div className="flex justify-between items-center">
                 <Link href="/" className="relative w-40 h-15 group">
                     <Image
