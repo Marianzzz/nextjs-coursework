@@ -64,7 +64,7 @@ jobs:
       - name: Run Tests
         run: npm run test
 
-  deploy:
+  ddeploy:
     name: Deploy to Vercel
     needs: test
     runs-on: ubuntu-latest
