@@ -5,11 +5,10 @@ import bcrypt from "bcryptjs";
 import { db } from "@/db/db";
 import { users } from "@/db/schema";
 import { SignupFormSchema, FormState } from "@/lib/definitions";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { FormErrors } from "@/lib/definitions";
-import { LoginFormSchema } from "@/lib/definitions";
-import { deleteSession } from "@/lib/session";
+import { FormErrors, LoginFormSchema } from "@/lib/definitions";
+
 
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
@@ -51,11 +50,12 @@ export async function signup(state: FormState, formData: FormData) {
     .from(users)
     .where(eq(users.email, email))
     .execute();
-    
+
   await createSession(newUser[0].id);
 
   redirect("/profile");
 }
+
 export async function login(state: FormState, formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get("email"),
@@ -86,8 +86,19 @@ export async function login(state: FormState, formData: FormData) {
 
   const foundUser = user[0];
 
-  const isPasswordValid = await bcrypt.compare(password, foundUser.passwordHash);
-  
+  if (foundUser.passwordHash === "") {
+    return {
+      errors: {
+        email: ["Цей акаунт використовує вхід через GitHub."],
+      },
+    };
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    password,
+    foundUser.passwordHash,
+  );
+
   if (!isPasswordValid) {
     return {
       errors: {

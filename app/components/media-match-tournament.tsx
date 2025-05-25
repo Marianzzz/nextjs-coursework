@@ -12,7 +12,7 @@ export default function MediaMatchTournament() {
           <section>
             <h2 className="text-xl font-bold pb-2 text-center xl:text-left">Медіа</h2>
             <Media />
-            <div className="flex items-center justify-center py-4">
+            <div className="flex items-center justify-center py-2">
               <Link href="/media">
                 <Button>Більше медіа</Button>
               </Link>
@@ -22,7 +22,7 @@ export default function MediaMatchTournament() {
           <section>
             <h2 className="text-xl font-bold pb-2 text-center xl:text-left">Турніри</h2>
             <Tournament />
-            <div className="flex items-center justify-center py-4">
+            <div className="flex items-center justify-center py-2">
               <Link href="/tournaments">
                 <Button>Більше турнірів</Button>
               </Link>
@@ -36,7 +36,7 @@ export default function MediaMatchTournament() {
         <div className="flex-1 overflow-y-auto">
           <MatchesByCategory />
         </div>
-        <div className="flex items-center justify-center py-4">
+        <div className="flex items-center justify-center">
           <Link href="/matches">
             <Button>Більше матчів</Button>
           </Link>

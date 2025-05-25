@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/session";
-import { logout } from '@/app/actions/auth';
+import { LogoutButton } from "./LogoutButton";
 import {
     Sheet,
     SheetContent,
@@ -62,9 +62,7 @@ export default async function Header() {
                         </DivDescription>
                         <SheetFooter className="px-4">
                             {session ? (
-                                <form action={logout}>
-                                    <Button type="submit" className="w-full">Вихід</Button>
-                                </form>
+                                <LogoutButton />
                             ) : (
                                 <Link href="/login">
                                     <Button variant="secondary" className="w-full">Увійти</Button>
