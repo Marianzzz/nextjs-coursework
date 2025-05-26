@@ -1,10 +1,7 @@
-'use client';
-
 import Image from 'next/image';
 import { Discipline, News } from '@/lib/definitions';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-
+import Link from 'next/link';
 
 export default function NewsCard({
   news,
@@ -17,8 +14,6 @@ export default function NewsCard({
   showAdmin: boolean;
   onDelete?: () => Promise<void>;
 }) {
-  
-
   return (
     <>
       <div className="rounded-xl border bg-white shadow-sm p-4 space-y-3 max-w-2xl mx-auto mt-10">
@@ -34,9 +29,6 @@ export default function NewsCard({
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 672px"
-              onError={() =>
-                console.error(`Помилка завантаження зображення: ${news.imageUrl}`)
-              }
             />
           </div>
         ) : (

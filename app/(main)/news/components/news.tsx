@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image';
 import { Discipline, News } from '@/lib/definitions';
 
@@ -22,9 +20,6 @@ export default function NewsCards({
             alt={news.title}
             fill
             className="object-cover"
-            onError={() =>
-              console.error(`Помилка завантаження зображення: ${news.imageUrl}`)
-            }
             sizes="(max-width: 768px) 100vw, 300px"
           />
         </div>

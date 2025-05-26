@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/db/db";
 import { matches, disciplines, tournaments } from "@/db/schema";
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { MatchSchema, MatchFormState } from "@/lib/definitions";
 import { redirect } from "next/navigation";
@@ -32,7 +32,7 @@ export async function getLastFiveMatches() {
       .from(matches)
       .leftJoin(disciplines, eq(matches.disciplineId, disciplines.id))
       .leftJoin(tournaments, eq(matches.tournamentId, tournaments.id))
-      .orderBy(asc(matches.date)) 
+      .orderBy(desc(matches.date)) 
       .limit(5); 
 
     return result.map((match) => ({
