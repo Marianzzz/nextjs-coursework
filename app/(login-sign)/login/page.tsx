@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: 'Форма для входу користувача',
 }
 
-
 import LoginForm from './components/login-form';
 
 export default async function LoginPage() {

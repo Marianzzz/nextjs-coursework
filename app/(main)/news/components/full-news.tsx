@@ -17,9 +17,9 @@ export default function NewsCard({
   return (
     <>
       <div className="rounded-xl border bg-white shadow-sm p-4 space-y-3 max-w-2xl mx-auto mt-10">
-        <h3 className="text-lg font-semibold text-gray-900">{news.title}</h3>
+        <h2 className="text-lg font-semibold text-gray-900">{news.title}</h2>
         {discipline && (
-          <h4 className="text-md font-medium text-gray-700">{discipline.name}</h4>
+          <h3 className="text-md font-medium text-gray-700">{discipline.name}</h3>
         )}
         {news.imageUrl ? (
           <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">

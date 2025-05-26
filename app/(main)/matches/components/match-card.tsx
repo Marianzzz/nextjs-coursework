@@ -11,9 +11,9 @@ export default function MatchCard({
 }) {
     return (
         <div className="rounded-md border bg-white shadow-sm p-3 space-y-2">
-            <h4 className="text-base font-semibold text-gray-900 text-center">
+            <h3 className="text-base font-semibold text-gray-900 text-center">
                 Mugetsu vs {matches.opponent}
-            </h4>
+            </h3>
             <div className="space-y-1 text-sm text-gray-700">
                 {matches.status === 'live' ? (
                     ''

@@ -4,6 +4,7 @@ import { signup } from '@/app/actions/auth';
 import { useActionState } from 'react';
 import { FormState } from '@/lib/definitions';
 import Link from 'next/link';
+import { signIn } from "next-auth/react";
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -64,6 +65,14 @@ export default function SignupForm() {
           <CardFooter className="flex flex-col gap-2">
             <Button type="submit" className="w-full" disabled={pending}>
               {pending ? 'Завантаження...' : 'Створити акаунт'}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => signIn("github", { callbackUrl: "/profile" })}
+            >
+              Зареєструйся через GitHub
             </Button>
 
             <p className="text-sm text-center">

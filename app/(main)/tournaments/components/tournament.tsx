@@ -10,7 +10,7 @@ export default function TournamentCard({
 }) {
     return (
         <div className="rounded-xl border bg-white shadow-sm p-6 space-y-4 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900">{tournament.name}</h3>
+            <h1 className="text-2xl font-bold text-gray-900">{tournament.name}</h1>
             <div className="space-y-2">
                 <p className="text-sm text-gray-700">
                     <span className="font-medium">Призовий фонд:</span>{' '}

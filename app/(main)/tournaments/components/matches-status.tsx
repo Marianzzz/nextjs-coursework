@@ -12,7 +12,7 @@ export default function MatchesByCategory({ matches }: { matches: ExtendedMatch[
         <div className="max-w-xl mx-auto space-y-8">
             {live.length > 0 && (
                 <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-red-600 text-center">Live</h3>
+                    <h2 className="text-xl font-bold text-red-600 text-center">Live</h2>
                     {live.map((match) => (
                         <MatchCard key={match.id} match={match} discipline={match.discipline || null} />
                     ))}
@@ -21,7 +21,7 @@ export default function MatchesByCategory({ matches }: { matches: ExtendedMatch[
 
             {upcoming.length > 0 && (
                 <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-gray-700 text-center">Майбутні матчі</h3>
+                    <h2 className="text-xl font-bold text-gray-700 text-center">Майбутні матчі</h2>
                     {upcoming.map((match) => (
                         <MatchCard key={match.id} match={match} discipline={match.discipline || null} />
                     ))}
@@ -30,7 +30,7 @@ export default function MatchesByCategory({ matches }: { matches: ExtendedMatch[
 
             {finished.length > 0 && (
                 <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-gray-700 text-center">Історія матчів</h3>
+                    <h2 className="text-xl font-bold text-gray-700 text-center">Історія матчів</h2>
                     {finished.map((match) => (
                         <MatchCard key={match.id} match={match} discipline={match.discipline || null} />
                     ))}

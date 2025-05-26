@@ -22,7 +22,7 @@ export default async function MatchesByCategory({ matches }: { matches: Extended
         <div className="max-w-xl mx-auto space-y-8">
             <Accordion type="multiple" className="w-full">
                 <AccordionItem value="item-1">
-                    <AccordionTrigger className="hover:underline decoration-red-600"><h3 className="text-xl font-bold text-red-600 text-center">Live</h3></AccordionTrigger>
+                    <AccordionTrigger className="hover:underline decoration-red-600"><h2 className="text-xl font-bold text-red-600 text-center">Live</h2></AccordionTrigger>
                     <AccordionContent>
                         {live.length > 0 && (
                             <div className="space-y-2">
@@ -50,7 +50,7 @@ export default async function MatchesByCategory({ matches }: { matches: Extended
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                    <AccordionTrigger className="hover:underline decoration-gray-700"><h3 className="text-xl font-bold text-gray-700 text-center">Майбутні матчі</h3></AccordionTrigger>
+                    <AccordionTrigger className="hover:underline decoration-gray-700"><h2 className="text-xl font-bold text-gray-700 text-center">Майбутні матчі</h2></AccordionTrigger>
                     <AccordionContent>
                         {upcoming.length > 0 && (
                             <div className="space-y-2">
@@ -78,7 +78,7 @@ export default async function MatchesByCategory({ matches }: { matches: Extended
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
-                    <AccordionTrigger className="hover:underline decoration-gray-700"><h3 className="text-xl font-bold text-gray-700 text-center">Історія матчів</h3></AccordionTrigger>
+                    <AccordionTrigger className="hover:underline decoration-gray-700"><h2 className="text-xl font-bold text-gray-700 text-center">Історія матчів</h2></AccordionTrigger>
                     <AccordionContent>
                         {finished.length > 0 && (
                             <div className="space-y-2">

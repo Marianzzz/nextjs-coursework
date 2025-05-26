@@ -26,8 +26,8 @@ export default function VideoCard({
         `}
       </script>
       <div className="rounded-xl border bg-white shadow-sm p-3 space-y-2">
-        <h3 className="text-base font-semibold">{video.title}</h3>
-        {discipline && <h4 className="text-base font-semibold">{discipline.name}</h4>}
+        <h2 className="text-base font-semibold">{video.title}</h2>
+        {discipline && <h3 className="text-base font-semibold">{discipline.name}</h3>}
         <iframe
           className="w-full aspect-video rounded-md"
           src={videoUrl} 
