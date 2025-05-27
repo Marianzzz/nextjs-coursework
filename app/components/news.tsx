@@ -26,8 +26,11 @@ export default async function NewsContent() {
                                 src={first.imageUrl}
                                 alt={first.title}
                                 fill
-                                className="object-cover transition-all duration-300 group-hover:blur-sm"
+                                priority={true}
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover transition-none group-hover:blur-sm group-hover:transition-all group-hover:duration-300"
                             />
+
                         )}
                         <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-6 transition-all duration-300 group-hover:bg-black/60">
                             <h2 className="text-white font-bold text-3xl leading-tight">
@@ -52,16 +55,16 @@ export default async function NewsContent() {
                         <Link
                             key={item.id}
                             href={`/news/${item.id}`}
-                            className={`block relative w-full h-full min-h-[150px] overflow-hidden group ${
-                                index === 0 && !first ? "custom-md:col-span-1" : ""
-                            }`}
+                            className={`block relative w-full h-full min-h-[150px] overflow-hidden group ${index === 0 && !first ? "custom-md:col-span-1" : ""
+                                }`}
                         >
                             {item.imageUrl && (
                                 <Image
                                     src={item.imageUrl}
                                     alt={item.title}
                                     fill
-                                    className="object-cover transition-all duration-300 group-hover:blur-sm"
+                                    priority={false}
+                                    className="object-cover transition-none group-hover:blur-sm group-hover:transition-all group-hover:duration-300"
                                 />
                             )}
                             <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-3 transition-all duration-300 group-hover:bg-black/60">
@@ -89,7 +92,8 @@ export default async function NewsContent() {
                                     src={first.imageUrl}
                                     alt={first.title}
                                     fill
-                                    className="object-cover transition-all duration-300 group-hover:blur-sm"
+                                    priority={false}
+                                    className="object-cover transition-none group-hover:blur-sm group-hover:transition-all group-hover:duration-300"
                                 />
                             )}
                             <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-3 transition-all duration-300 group-hover:bg-black/60">

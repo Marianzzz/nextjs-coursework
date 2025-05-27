@@ -37,7 +37,7 @@ export default async function Header() {
                 </Link>
                 <Sheet>
                     <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-white">
+                        <Button variant="ghost" size="icon" className="text-white" aria-label="Відкрити меню">
                             <Menu className="w-6 h-6" />
                         </Button>
                     </SheetTrigger>

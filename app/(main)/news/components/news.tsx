@@ -14,13 +14,14 @@ export default function NewsCards({
       {discipline && <h3 className="text-base font-semibold">{discipline.name}</h3>}
 
       {news.imageUrl && (
-        <div className="relative w-full aspect-[3/2] overflow-hidden rounded-md">
+        <div className="relative w-full overflow-hidden rounded-md aspect-[3/2]">
           <Image
             src={news.imageUrl}
             alt={news.title}
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, 300px"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 300px"
+            priority={false}
           />
         </div>
       )}

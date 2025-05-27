@@ -22,13 +22,14 @@ export default function NewsCard({
           <h3 className="text-md font-medium text-gray-700">{discipline.name}</h3>
         )}
         {news.imageUrl ? (
-          <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
+           <div className="relative w-full overflow-hidden rounded-md aspect-[4/3]">
             <Image
               src={news.imageUrl}
               alt={news.title}
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 672px"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 672px"
+              priority={false}
             />
           </div>
         ) : (
