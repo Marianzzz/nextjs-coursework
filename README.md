@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mugetsu — Веборієнтована система кіберспортивної організації
 
-## Getting Started
+**Mugetsu** — це сучасна веборієнтована система для кіберспортивної організації, яка дозволяє користувачам переглядати новини, матчі (live, майбутні та завершені), турніри, інформацію про команди та медіа. Адміністратори мають змогу керувати контентом (додавати, редагувати, видаляти). Реалізовано автентифікацію через електронну пошту та GitHub із підтримкою ролей користувачів.
 
-First, run the development server:
+## Технології
+Для створення **Mugetsu** використано сучасний стек технологій, що забезпечує високу продуктивність, масштабованість та зручність розробки:
 
+- Next.js 15 (React-based фреймворк для серверного рендерингу, статичної генерації та API-маршрутів)
+- TypeScript (статична типізація для підвищення надійності коду)
+- Tailwind (утиліта для швидкої та гнучкої стилізації)
+- Shadcn (набір компонентів на основі Tailwind для створення сучасного UI)
+- PostgreSQL (реляційна база даних, хостинг через Railway)
+- Drizzle ORM (легка та типобезпечна ORM для роботи з PostgreSQL)
+- Vercel Blob Store (зберігання зображень та інших медіа)
+- NextAuth.js (автентифікація через email/пароль із хешуванням та OpenID Connect через GitHub)
+- JWT (керування сесіями)
+- Sentry.io (інтеграція з модулями Tracing та Session Replay для відстеження помилок, продуктивності та поведінки користувачів)
+- Server Actions (`"use server"`) для асинхронних CRUD-операцій
+- Visual Studio Code (середовище розробки)
+- GitHub Actions (автоматизація CI/CD з перевірками ESLint, Prettier, TypeScript)
+- Vercel (автоматичне розгортання з завантаженням source maps до Sentry)
+- Middleware для захисту API-запитів
+
+## Встановлення та запуск
+
+### 1. Клонування репозиторію
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd mugetsu
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Встановлення залежностей
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Налаштування змінних середовища
+Створіть файл `.env` у корені проєкту та додайте наступні змінні:
+```
+DATABASE_URL=
+SESSION_SECRET=
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+BLOB_READ_WRITE_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+GITHUB_CLIENT_ID=
+GITHUB_ID=
+GITHUB_SECRET=
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Налаштування бази даних
+1. Переконайтеся, що PostgreSQL встановлено та запущено.
+2. Створіть базу даних:
+   ```bash
+   psql -U postgres -c "CREATE DATABASE mugetsu;"
+   ```
+3. Згенеруйте та застосуйте міграції:
+   ```bash
+   npm run db:generate
+   npm run db:migrate
+   ```
+   Або для швидкого оновлення схеми:
+   ```bash
+   npm run db:push
+   ```
 
-## Learn More
+### 5. Запуск проєкту
+- Для розробки:
+  ```bash
+  npm run dev
+  ```
+  Проєкт буде доступний за адресою **http://localhost:3000**.
+- Для продакшену:
+  ```bash
+  npm run build
+  npm run start
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+### 6. Додаткові команди
+- Лінтинг коду:
+  ```bash
+  npm run lint
+  ```
+- Форматування коду:
+  ```bash
+  npm run format
+  ```
+- Перевірка типів:
+  ```bash
+  npm run type-check
+  ```
+- Запуск тестів:
+  ```bash
+  npm run test
+  ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Ліцензія
+Цей проєкт ліцензовано під [MIT License](./LICENSE).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Автор
+**Marianzzz** - [GitHub профіль](https://github.com/Marianzzz)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
