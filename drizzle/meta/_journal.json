@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1747511835603,
-      "tag": "0000_round_martin_li",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1747514419983,
-      "tag": "0001_fair_psylocke",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1748166165193,
-      "tag": "0002_faulty_oracle",
+      "when": 1748775622113,
+      "tag": "0000_steady_karnak",
       "breakpoints": true
     }
   ]

@@ -51,7 +51,7 @@ export default function EditTournamentModal({ tournament }: { tournament: Tourna
         <form action={updateAction} ref={formRef}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">Назва</Label>
+              <Label htmlFor="name" className="text-left">Назва</Label>
               <Input
                 id="name"
                 name="name"
@@ -66,7 +66,7 @@ export default function EditTournamentModal({ tournament }: { tournament: Tourna
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="startDate" className="text-right">Початок</Label>
+              <Label htmlFor="startDate" className="text-left">Початок</Label>
               <Input
                 id="startDate"
                 name="startDate"
@@ -82,7 +82,7 @@ export default function EditTournamentModal({ tournament }: { tournament: Tourna
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="endDate" className="text-right">Завершення</Label>
+              <Label htmlFor="endDate" className="text-left">Завершення</Label>
               <Input
                 id="endDate"
                 name="endDate"
@@ -98,7 +98,7 @@ export default function EditTournamentModal({ tournament }: { tournament: Tourna
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="prizePool" className="text-right">Призовий фонд</Label>
+              <Label htmlFor="prizePool" className="text-left">Призовий фонд</Label>
               <Input
                 id="prizePool"
                 name="prizePool"

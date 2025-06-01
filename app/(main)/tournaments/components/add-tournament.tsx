@@ -63,7 +63,7 @@ export default function AddTournamentModal() {
         <form action={action}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+              <Label htmlFor="name">
                 Назва
               </Label>
               <Input id="name" name="name" className="col-span-3" />
@@ -74,7 +74,7 @@ export default function AddTournamentModal() {
               )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="startDate" className="text-right">
+              <Label htmlFor="startDate" className="text-left">
                 Дата початку
               </Label>
               <Input
@@ -90,7 +90,7 @@ export default function AddTournamentModal() {
               )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="endDate" className="text-right">
+              <Label htmlFor="endDate" className="text-left">
                 Дата закінчення
               </Label>
               <Input
@@ -106,7 +106,7 @@ export default function AddTournamentModal() {
               )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="prizePool" className="text-right">
+              <Label htmlFor="prizePool" className="text-left">
                 Призовий фонд
               </Label>
               <Input id="prizePool" name="prizePool" className="col-span-3" />
