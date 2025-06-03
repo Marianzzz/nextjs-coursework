@@ -87,7 +87,7 @@ export async function changePassword(
     return {
       errors: {
         current: [
-          "Користувача не знайдено або він використовує Google авторизацію.",
+          "Користувача не знайдено або він використовує GitHub авторизацію.",
         ],
       },
     };
